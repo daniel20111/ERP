@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateModuleRequest extends FormRequest
+class StoreModuleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UpdateModuleRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,6 +25,7 @@ class UpdateModuleRequest extends FormRequest
     {
         return [
             //
+            'name_module' => 'required | max:20 | min:3'
         ];
     }
 }

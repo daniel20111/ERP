@@ -14,11 +14,21 @@ class ModuleCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->map(function ($data) {
+        /*return $this->collection->map(function ($data) {
             return [
                 'id' => $data->id,
                 'name_module' => $data->name_module
             ];
-        });
+        });*/
+        /*return $this->collection->map(function ($data) {
+            return [
+                'id' => $data->id,
+                'name_module' => $data->name_module
+            ];
+        });*/
+
+        return [
+            'data' => $this->collection
+        ];
     }
 }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreModuleRequest;
+use App\Http\Requests\UpdateModuleRequest;
 use App\Http\Resources\ModuleCollection;
+use App\Http\Resources\ModuleResource;
 use Illuminate\Http\Request;
 use App\Models\Module;
 
@@ -16,7 +19,9 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        return new ModuleCollection(Module::paginate(2));
+        return new ModuleCollection(Module::paginate(5));
+        //return new ModuleResource(Module::all());
+        //return ModuleResource::collection(Module::paginate(5));
     }
 
     /**
@@ -25,9 +30,9 @@ class ModuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreModuleRequest $request)
     {
-        //
+        return Module::create($request->only('name_module'));   
     }
 
     /**
@@ -38,7 +43,8 @@ class ModuleController extends Controller
      */
     public function show($id)
     {
-        //
+        //return new ModuleCollection(Module::findOrFail($id));
+        return new ModuleResource(Module::findOrFail($id));
     }
 
     /**
@@ -48,9 +54,9 @@ class ModuleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateModuleRequest $request, $id)
     {
-        //
+        return Module::findOrFail($id)->update($request->only('name_module'));
     }
 
     /**
@@ -61,6 +67,6 @@ class ModuleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Module::findOrFail($id)->delete();
     }
 }
