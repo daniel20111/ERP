@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AccessController;
+use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\RoleController;
 
 /*
@@ -22,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('accesses', AccessController::class);
 Route::apiResource('roles', RoleController::class);
+Route::apiResource('modules', ModuleController::class);
+

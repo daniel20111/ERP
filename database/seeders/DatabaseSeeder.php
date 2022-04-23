@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
         //Access::factory()->times(3)->create();
         //Role::factory()->times(5)->create();
 
-        Role::factory()->count(5)->has(Access::factory()->count(3))->create();
-
+        //Role::factory()->count(5)->has(Access::factory()->count(3))->create();
+        $this->call([
+            ModuleSeeder::class,
+        ]);
     }
 }
