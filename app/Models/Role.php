@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name_role',
@@ -16,5 +17,10 @@ class Role extends Model
 
     public function accesses(){
         return $this->belongsToMany(Access::class);
+    }
+    
+    public function modules()
+    {
+        return $this->belongsToMany(Module::class);
     }
 }

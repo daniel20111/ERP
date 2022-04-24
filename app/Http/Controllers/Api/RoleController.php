@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Resources\RoleCollection;
+use App\Http\Resources\RoleResource;
 use App\Models\Access;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -17,9 +21,7 @@ class RoleController extends Controller
     public function index()
     {
         //
-        $roles = Access::has('roles')->get();
-        $role = Role::has('accesses')->get();
-        return response()->json($role);
+        return new RoleCollection(Role::with('modules')->paginate(5));
     }
 
     /**
@@ -28,9 +30,10 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        //
+        return Role::create(
+            $request->only('name_role','description_role'));   
     }
 
     /**
@@ -41,7 +44,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        return new RoleResource(Role::findOrFail($id));
     }
 
     /**
@@ -51,9 +54,10 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRoleRequest $request, $id)
     {
-        //
+        return Role::findOrFail($id)->update(
+            $request->only('name_role', 'description_role'));
     }
 
     /**
@@ -64,6 +68,6 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Role::findOrFail($id)->delete();
     }
 }
