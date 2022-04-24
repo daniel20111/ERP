@@ -9,6 +9,7 @@ use App\Http\Resources\ModuleCollection;
 use App\Http\Resources\ModuleResource;
 use Illuminate\Http\Request;
 use App\Models\Module;
+use Illuminate\Support\Facades\DB;
 
 class ModuleController extends Controller
 {
@@ -19,7 +20,7 @@ class ModuleController extends Controller
      */
     public function index()
     {
-        return new ModuleCollection(Module::paginate(5));
+        return new ModuleCollection(Module::with('roles')->paginate(5));
         //return new ModuleResource(Module::all());
         //return ModuleResource::collection(Module::paginate(5));
     }
@@ -32,7 +33,28 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        return Module::create($request->only('name_module'));   
+        //$module = $request->data->name_module;
+        /*foreach ($request->modules as $datum) {
+            $r = $datum;
+        }
+        return $r;*/
+        $validatedModules = $request->validated();
+        $modules = $validatedModules['modules'];
+
+        DB::transaction(function () use ($modules) {
+            foreach ($modules as $module){
+                Module::create($module);
+            }
+        });
+
+        /*DB::transaction(function () use ($validatedModules) {
+            foreach ($validatedModules->modules as $module) {
+                Module::create($module);
+            }
+            return response()->json(['hola' => 'mundo'], 200);
+        });*/
+
+        /*return Module::create($request->only('name_module')); */  
     }
 
     /**

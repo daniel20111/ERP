@@ -25,7 +25,17 @@ class StoreModuleRequest extends FormRequest
     {
         return [
             //
-            'name_module' => 'required | max:20 | min:3'
+            'modules' => 'present | array',
+            'modules.*.name_module' => 'required | max:20 | min:3'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'modules.*.name_module.required' => 'The name of the module is required',
+            //'modules.*.name_module.min:3' => 'The name of the module must contain at least 3 characteres',
+            //'modules.*.name_module.max:20' => 'The name of the module is required',
         ];
     }
 }

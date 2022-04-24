@@ -33,7 +33,7 @@ class RoleController extends Controller
     public function store(StoreRoleRequest $request)
     {
         return Role::create(
-            $request->only('name_role','description_role'));   
+            $request->only('name_role','description_role'));
     }
 
     /**

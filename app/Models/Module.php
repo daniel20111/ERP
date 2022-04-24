@@ -17,6 +17,6 @@ class Module extends Model
 
     public function roles()
     {
-        return $this->BelongsToMany(Role::class);
+        return $this->BelongsToMany(Role::class)->withTimestamps();
     }
 }
