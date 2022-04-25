@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRoleRequest extends FormRequest
@@ -24,8 +25,13 @@ class StoreRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name_role' => 'required | max:50 | min:4',
-            'description_role' => 'max:200 | min:0' 
+            'roles' => 'present',
+            'roles.*' => 'array:name_role,description_role,modules',
+            'roles.*.name_role' => 'required | max:50 | min:4',
+            'roles.*.description_role' => 'max:200 | min:0',
+            'roles.*.modules' => 'present',
+            'roles.*.modules.*' => 'array:id',
+            'roles.*.modules.*.id' => 'required' 
         ];
     }
 }

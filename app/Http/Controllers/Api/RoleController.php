@@ -9,7 +9,12 @@ use App\Http\Resources\RoleCollection;
 use App\Http\Resources\RoleResource;
 use App\Models\Access;
 use App\Models\Role;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\throwException;
 
 class RoleController extends Controller
 {
@@ -32,8 +37,31 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request)
     {
-        return Role::create(
-            $request->only('name_role','description_role'));
+        DB::beginTransaction();
+
+        try {
+            foreach ($request->roles as $role) {
+                $validator = Validator::make($role['modules'], [
+                    '*.id' => 'present | distinct'
+                ]);
+        
+                if ($validator->fails()) {
+                    throw new Exception("Validation Faild");
+                }
+    
+                $createdRole = Role::create($role);
+                foreach ($role['modules'] as $module) {
+                    $createdRole->modules()->attach($module['id']);
+                }
+                //$createdRole->modules()->attach($role['modules']);
+            }
+            DB::commit();
+            return response()->json(['message' => 'module created'], 244);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['error' => 'an error has occured'], 244);
+        }
+        
     }
 
     /**
