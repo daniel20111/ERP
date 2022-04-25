@@ -24,7 +24,7 @@ class UpdateModuleRequest extends FormRequest
     public function rules()
     {
         return [
-            'name_module' => 'required | max:20 | min:3'
+            'name_module' => 'required | max:20 | min:3 | present'
         ];
     }
 }

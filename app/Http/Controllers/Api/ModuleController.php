@@ -34,12 +34,6 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        /*DB::transaction(function () use ($request) {
-            foreach ($request->modules as $module){
-                Module::create($module);
-            }
-        });*/
-
        DB::beginTransaction();
 
         try {
@@ -47,10 +41,10 @@ class ModuleController extends Controller
                 Module::create($module);
             }
             DB::commit();
-            return response()->json(['modules' => 'created'], 244);
+            return response()->json(['message' => 'module created'], 244);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['error' => 'an erros has occured'], 244);
+            return response()->json(['error' => 'an error has occured'], 244);
         }
     }
 
@@ -75,7 +69,16 @@ class ModuleController extends Controller
      */
     public function update(UpdateModuleRequest $request, $id)
     {
-        return Module::findOrFail($id)->update($request->only('name_module'));
+        DB::beginTransaction();
+
+        try {
+            Module::findOrFail($id)->update($request->validated());
+            DB::commit();
+            return response()->json(['message' => 'module updated'], 244);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['error' => 'an error has occured'], 244);
+        }
     }
 
     /**

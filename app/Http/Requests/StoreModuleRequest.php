@@ -26,7 +26,7 @@ class StoreModuleRequest extends FormRequest
         return [
             'modules' => 'present',
             'modules.*' => 'array:name_module',
-            'modules.*.name_module' => 'required | max:20 | min:3',
+            'modules.*.name_module' => 'required | max:20 | min:3 | present',
             
         ];
     }
