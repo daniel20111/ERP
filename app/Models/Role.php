@@ -23,4 +23,9 @@ class Role extends Model
     {
         return $this->belongsToMany(Module::class)->withTimestamps();
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
