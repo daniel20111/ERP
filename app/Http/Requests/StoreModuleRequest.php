@@ -24,9 +24,10 @@ class StoreModuleRequest extends FormRequest
     public function rules()
     {
         return [
-            //
-            'modules' => 'present | array',
-            'modules.*.name_module' => 'required | max:20 | min:3'
+            'modules' => 'present',
+            'modules.*' => 'array:name_module',
+            'modules.*.name_module' => 'required | max:20 | min:3',
+            
         ];
     }
 

@@ -10,6 +10,7 @@ use App\Http\Resources\ModuleResource;
 use Illuminate\Http\Request;
 use App\Models\Module;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ModuleController extends Controller
 {
@@ -33,28 +34,24 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        //$module = $request->data->name_module;
-        /*foreach ($request->modules as $datum) {
-            $r = $datum;
-        }
-        return $r;*/
-        $validatedModules = $request->validated();
-        $modules = $validatedModules['modules'];
-
-        DB::transaction(function () use ($modules) {
-            foreach ($modules as $module){
+        /*DB::transaction(function () use ($request) {
+            foreach ($request->modules as $module){
                 Module::create($module);
             }
-        });
-
-        /*DB::transaction(function () use ($validatedModules) {
-            foreach ($validatedModules->modules as $module) {
-                Module::create($module);
-            }
-            return response()->json(['hola' => 'mundo'], 200);
         });*/
 
-        /*return Module::create($request->only('name_module')); */  
+       DB::beginTransaction();
+
+        try {
+            foreach ($request->modules as $module){
+                Module::create($module);
+            }
+            DB::commit();
+            return response()->json(['modules' => 'created'], 244);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['error' => 'an erros has occured'], 244);
+        }
     }
 
     /**
