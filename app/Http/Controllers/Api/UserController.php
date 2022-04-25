@@ -11,6 +11,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -66,7 +67,16 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        //
+        DB::beginTransaction();
+        try {
+            User::findOrFail($id)->update($request->user[0]);
+            DB::commit();
+            return response()->json(['message' => 'user updated'], 244);
+            //return dd($request->user);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['message' => 'an error has ocurred'], 244);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -26,6 +27,7 @@ class StoreUserRequest extends FormRequest
         return [
             'users' => 'present | array | min:1',
             'users.*' => 'array:email_user,password_user,role_id',
+            //'users.*.email_user' => ['required | email | distinct | unique'],
             'users.*.email_user' => 'required | email | distinct | unique:users',
             'users.*.password_user' => 'required',
             'users.*.role_id' => 'required | exists:App\Models\Role,id'

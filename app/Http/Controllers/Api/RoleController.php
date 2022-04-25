@@ -59,7 +59,7 @@ class RoleController extends Controller
             return response()->json(['message' => 'module created'], 244);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['error' => 'an error has occured'], 244);
+            return response()->json(['error' => 'an error has occurred'], 244);
         }
         
     }
