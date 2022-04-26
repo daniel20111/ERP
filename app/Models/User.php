@@ -13,7 +13,8 @@ class User extends Model
     protected $fillable = [
         'email_user',
         'password_user',
-        'role_id'
+        'role_id',
+        'employee_id'
     ];
 
     protected $hidden = [
@@ -23,5 +24,10 @@ class User extends Model
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

@@ -61,7 +61,6 @@ class RoleController extends Controller
             DB::rollBack();
             return response()->json(['error' => 'an error has occurred'], 244);
         }
-        
     }
 
     /**

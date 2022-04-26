@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AccessController;
+use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -26,4 +27,5 @@ Route::apiResource('accesses', AccessController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('modules', ModuleController::class);
 Route::apiResource('users', UserController::class);
+Route::apiResource('employees', EmployeeController::class);
 
