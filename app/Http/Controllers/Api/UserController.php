@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateRoleRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+
+use App\Http\Resources\User\UserCollection;
+use App\Http\Resources\User\UserResource;
+
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {

@@ -15,10 +15,6 @@ class Role extends Model
         'description_role'
     ];
 
-    public function accesses(){
-        return $this->belongsToMany(Access::class);
-    }
-    
     public function modules()
     {
         return $this->belongsToMany(Module::class)->withTimestamps();

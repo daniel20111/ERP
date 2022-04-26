@@ -3,15 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreModuleRequest;
-use App\Http\Requests\UpdateModuleRequest;
-use App\Http\Resources\ModuleCollection;
-use App\Http\Resources\ModuleResource;
-use Illuminate\Http\Request;
+use App\Http\Requests\Module\StoreModuleRequest;
+use App\Http\Requests\Module\UpdateModuleRequest;
+use App\Http\Resources\Module\ModuleCollection;
+use App\Http\Resources\Module\ModuleResource;
+
 use App\Models\Module;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
 class ModuleController extends Controller
 {
