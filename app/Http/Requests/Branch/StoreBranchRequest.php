@@ -13,7 +13,7 @@ class StoreBranchRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreBranchRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'branches' => ['present', 'array', 'min:1'],
+            'branches.*' => ['array:name_branch,address_branch,warehouses'],
+            'branches.*.name_branch' => ['required', 'unique:branches,name_branch', 'min:3'], 
+            'branches.*.address_branch' => ['required', 'min:3'],
+            'branches.*.warehouses' => ['present', 'array'],
+            'branches.*.warehouses.*' => ['array:name_warehouse'],
+            'branches.*.warehouses.*.name_warehouse' => ['sometimes', 'required']
         ];
     }
 }

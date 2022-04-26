@@ -10,8 +10,21 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+        'names_employee',
+        'last_name_employee',
+        'CI_employee',
+        'birth_date_employee',
+        'branch_id',
+    ];
+
     public function user()
     {
         return $this->hasOne(User::class);
+    }
+
+    public function branch()
+    {
+        return $this->hasOne(Branch::class);
     }
 }

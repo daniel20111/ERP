@@ -13,7 +13,7 @@ class StoreWarehouseRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreWarehouseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'branches' => ['present', 'array', 'min:1'],
+            'branches.*' => ['array:id,warehouses'],
+            'branches.*.id' => ['required', 'exists:branches,id'],
+            'branches.*.warehouses' => ['present', 'array', 'min:1'],
+            'branches.*.warehouses.*' => ['array:name_warehouse'],
+            'branches.*.warehouses.*.name_warehouse' => ['required']
         ];
     }
 }

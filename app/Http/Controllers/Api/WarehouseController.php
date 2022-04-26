@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Warehouse\StoreWarehouseRequest;
+use App\Models\Branch;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WarehouseController extends Controller
 {
@@ -23,9 +27,32 @@ class WarehouseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreWarehouseRequest $request)
     {
-        //
+        $validatedRequest = $request->validated();
+        DB::beginTransaction();
+
+        try 
+        {
+            foreach ($validatedRequest['branches'] as $branch) {
+                $requestedBranch = Branch::findOrFail($branch['id']);
+                //dump($requestedBranch);
+                if (!empty($branch['warehouses'])) {
+                    /*foreach ($branch['warehouses'] as $warehouse) {
+                        $createdWarehouse = new Warehouse($warehouse);
+                        $createdWarehouse->branch()->associate($requestedBranch);
+                        $createdWarehouse->save();
+                    }*/
+                    $requestedBranch->warehouses()->createMany($branch['warehouses']);
+                }
+            }
+            DB::commit();
+        } 
+        catch (\Throwable $th) 
+        {
+            //throw $th;
+            DB::rollBack();
+        }
     }
 
     /**

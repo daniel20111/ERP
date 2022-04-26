@@ -14,7 +14,7 @@ class SectionFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name_section' => $this->faker->randomLetter()
         ];
     }
 }

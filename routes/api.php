@@ -3,10 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AccessController;
+use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ModuleController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WarehouseController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +30,6 @@ Route::apiResource('roles', RoleController::class);
 Route::apiResource('modules', ModuleController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('employees', EmployeeController::class);
+Route::apiResource('branches', BranchController::class);
+Route::apiResource('warehouses', WarehouseController::class);
 

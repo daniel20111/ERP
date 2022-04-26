@@ -13,6 +13,6 @@ class WarehouseSeeder extends Seeder
      */
     public function run()
     {
-        //
+        
     }
 }

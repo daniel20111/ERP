@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Access;
+use App\Models\Branch;
 use App\Models\Role;
 
 class DatabaseSeeder extends Seeder
@@ -23,8 +24,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             //ModuleSeeder::class,
             //RoleSeeder::class,
-            //UserSeeder::class
-            EmployeeSeeder::class
+            UserSeeder::class,
+            //EmployeeSeeder::class,
+            BranchSeeder::class
         ]);
     }
 }

@@ -17,7 +17,7 @@ class CreateWarehousesTable extends Migration
             $table->id();
             
             $table->string('name_warehouse');
-            $table->foreignId('branch_id')->constrained()->onUpdate();
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade');
             
             $table->timestamps();
             $table->softDeletes();

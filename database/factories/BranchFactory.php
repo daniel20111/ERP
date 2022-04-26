@@ -14,7 +14,8 @@ class BranchFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name_branch' => $this->faker->company(),
+            'address_branch' => $this->faker->address()
         ];
     }
 }
