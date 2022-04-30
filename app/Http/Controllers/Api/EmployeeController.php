@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Employee\StoreEmployeeRequest;
 use App\Http\Resources\Employee\EmployeeCollection;
+use App\Http\Resources\Employee\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -25,9 +28,22 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEmployeeRequest $request)
     {
-        //
+        $validatedRequest = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            foreach ($validatedRequest['employees'] as $employee) {
+                Employee::create($employee);
+                //dump($employee);
+            }
+            DB::commit();
+            return response()->json(['message' => 'created'], 201);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
     }
 
     /**
@@ -38,7 +54,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        return new EmployeeResource(Employee::with('user')->findOrFail($id));
     }
 
     /**

@@ -13,7 +13,7 @@ class StoreSectionRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,12 @@ class StoreSectionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'warehouses' => ['present', 'array', 'min:1'],
+            'warehouses.*' => ['array:id,sections'],
+            'warehouses.*.id' => ['required', 'exists:warehouses,id', 'distinct'],
+            'warehouses.*.sections' => ['present', 'array', 'min:1'],
+            'warehouses.*.sections.*' => ['array:name_section'],
+            'warehouses.*.sections.*.name_section' => ['required']
         ];
     }
 }

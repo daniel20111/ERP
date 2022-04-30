@@ -22,6 +22,7 @@ class EmployeeResource extends JsonResource
             'CI_employee' => $this->CI_employe,
             'birth_date_employee' => $this->birth_date_employee,
             'user' => new UserResource($this->whenLoaded('user'))
+            //'user' => new UserResource($this->user)
         ];
     }
 }

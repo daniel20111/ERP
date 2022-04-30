@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\StoreProductRequest;
+use App\Http\Resources\Product\ProductCollection;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -14,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return new ProductCollection(Product::paginate(5));
     }
 
     /**
@@ -23,9 +27,21 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        //
+        $validatedRequest = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+            foreach ($validatedRequest['products'] as $product) {
+                Product::create($product);
+            }
+            Db::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+        }
+
     }
 
     /**

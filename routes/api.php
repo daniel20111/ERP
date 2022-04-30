@@ -6,7 +6,9 @@ use App\Http\Controllers\Api\AccessController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ModuleController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WarehouseController;
 
@@ -32,4 +34,7 @@ Route::apiResource('users', UserController::class);
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('branches', BranchController::class);
 Route::apiResource('warehouses', WarehouseController::class);
+Route::apiResource('sections', SectionController::class);
+Route::apiResource('products', ProductController::class);
+Route::apiResource('employees', EmployeeController::class);
 

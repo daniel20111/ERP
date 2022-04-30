@@ -13,7 +13,7 @@ class StoreEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class StoreEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'employees' => ['present', 'array', 'min:1'],
+            'employees.*' => ['array:names_employee,last_name_employee,CI_employee,birth_date_employee,branch_id'],
+            'employees.*.names_employee' => ['required'],
+            'employees.*.last_name_employee' => ['required'],
+            'employees.*.CI_employee' => ['required'],
+            'employees.*.birth_date_employee' => ['required'],
+            'employees.*.branch_id' => ['required']
         ];
     }
 }
