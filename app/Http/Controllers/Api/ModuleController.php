@@ -21,7 +21,8 @@ class ModuleController extends Controller
     public function index()
     {
         //return new ModuleCollection(Module::with('roles')->paginate(5));
-        return new ModuleCollection(Module::paginate(10));
+        return new ModuleCollection(Module::paginate(3));
+        //return new ModuleCollection(Module::all());
         //return ModuleResource::collection(Module::paginate(5));
     }
 
