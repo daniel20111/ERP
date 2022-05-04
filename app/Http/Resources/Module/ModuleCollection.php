@@ -12,6 +12,8 @@ class ModuleCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+    public static $wrap = 'modules';
     public function toArray($request)
     {
         /*return $this->collectpion->map(function ($data) {
@@ -26,9 +28,6 @@ class ModuleCollection extends ResourceCollection
                 'name_module' => $data->name_module
             ];
         });*/
-
-        return [
-            'data' => $this->collection
-        ];
+        return parent::toArray($request);
     }
 }
