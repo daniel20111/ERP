@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasApiTokens;
 
     protected $fillable = [
-        'email_user',
+        'email',
         'password_user',
         'role_id',
         'employee_id'
@@ -29,5 +30,10 @@ class User extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password_user;
     }
 }

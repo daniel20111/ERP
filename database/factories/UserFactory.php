@@ -5,7 +5,7 @@ namespace Database\Factories;
 use App\Models\Employee;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserFactory extends Factory
 {
@@ -17,8 +17,8 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'email_user' => $this->faker->unique()->safeEmail(),
-            'password_user' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'email' => $this->faker->unique()->safeEmail(),
+            'password_user' => Hash::make('123'),
             'employee_id' => Employee::factory(),
             'role_id' => Role::factory()
         ];

@@ -30,11 +30,15 @@ use App\Http\Controllers\Api\WarehouseController;
 Route::apiResource('accesses', AccessController::class);
 Route::apiResource('roles', RoleController::class);
 Route::apiResource('modules', ModuleController::class);
+
+Route::post('/login', [UserController::class, 'login']);
 Route::apiResource('users', UserController::class);
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('branches', BranchController::class);
 Route::apiResource('warehouses', WarehouseController::class);
 Route::apiResource('sections', SectionController::class);
-Route::apiResource('products', ProductController::class);
+
+Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
+//Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
 

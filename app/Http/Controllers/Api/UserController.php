@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-
+use Illuminate\Http\Request;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth\LoginController as CustomLoginController;
+
 
 class UserController extends Controller
 {
@@ -87,5 +90,22 @@ class UserController extends Controller
     public function destroy($id)
     {
         return User::findOrFail($id)->delete();
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->user()->tokens()->delete();
+            $token = $request->user()->createToken('user');
+            return response()->json(['token' => $token->plainTextToken], 200);
+        }
+
+        return response()->json(['message' => 'nonono'], 512);
+
     }
 }
