@@ -64,7 +64,7 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**

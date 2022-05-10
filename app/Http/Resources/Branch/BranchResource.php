@@ -14,12 +14,14 @@ class BranchResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
     public function toArray($request)
     {
         return [
-            'name' => $this->name_branch,
-            'address' => $this->address_branch,
-            'warehouses' => new WarehouseCollection($this->warehouses)
+            'id' => $this->id,
+            'name_branch' => $this->name_branch,
+            'address_branch' => $this->address_branch,
+            //'warehouses' => new WarehouseCollection($this->warehouses)
         ];
     }
 }
