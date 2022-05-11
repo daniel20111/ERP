@@ -12,7 +12,9 @@ class Module extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name_module'
+        'name_module',
+        'icon_module',
+        'route_module'
     ];
 
     public function roles()

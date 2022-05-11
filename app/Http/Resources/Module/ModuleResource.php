@@ -16,7 +16,9 @@ class ModuleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'module' => $this->name_module,
+            'name_module' => $this->name_module,
+            'icon_module' => $this->icon_module,
+            'route_module' => $this->route_module,
             //'roles' => RoleResource::collection($this->roles)
         ];
     }

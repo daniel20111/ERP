@@ -17,6 +17,8 @@ class CreateModulesTable extends Migration
             $table->id();
             
             $table->string('name_module');
+            $table->string('icon_module')->nullable();
+            $table->string('route_module')->nullable();
             
             $table->timestamps();
             $table->softDeletes();

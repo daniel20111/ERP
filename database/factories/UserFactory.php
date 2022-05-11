@@ -20,7 +20,7 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'password_user' => Hash::make('123'),
             'employee_id' => Employee::factory(),
-            'role_id' => Role::factory()
+            'role_id' => 1,
         ];
     }
 

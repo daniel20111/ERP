@@ -15,6 +15,7 @@ class ModuleFactory extends Factory
     {
         return [
             'name_module' => $this->faker->country(),
+            'icon_module' => null,
         ];
     }
 }
