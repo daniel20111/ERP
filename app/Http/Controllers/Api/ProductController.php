@@ -16,10 +16,19 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new ProductCollection(Product::paginate(5));
+        if ($request->has(['search'])) 
+        {
+            if ($request->filled('search'))
+            {
+                return new ProductCollection(Product::where('name_product', 'ILIKE', '%'.$request->search.'%')->get());
+            }
+            return [];
+        }
+        return new ProductCollection(Product::paginate(10));
     }
+
 
     /**
      * Store a newly created resource in storage.
