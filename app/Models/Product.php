@@ -11,13 +11,28 @@ class Product extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name_product',
-        'image_product',
-        'length_product',
-        'height_product',
-        'weight_product',
-        'units_box_product',
+        'model_product',
+        'description_product',
+        'url_image_product',
+        'format_product',
+        'code_product',
+        'family_product',
+        'finish_product',
         'brand_product',
         'origin_product',
+        'unit_measure_product',
+        'units_box_product',
+        'area_box_product',
+        'boxes_pallet_product',
+        'area_pallet_product',
+        'weight_box_product',
+        'weight_pallet_product',
+    ];
+
+    protected $casts = [
+        'area_box_product' => 'float',
+        'area_pallet_product' => 'float',
+        'weight_box_product' => 'float',
+        'weight_pallet_product' => 'float',
     ];
 }
