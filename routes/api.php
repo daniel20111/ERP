@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\SectionController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WarehouseController;
+use App\Http\Controllers\Api\EntryController;
+use App\Http\Controllers\Api\EntryOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +46,8 @@ Route::apiResource('sections', SectionController::class);
 //Route::get('/productSearch', [ProductController::class, 'search']);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
+
+Route::apiResource('entries', EntryController::class);
+
+Route::apiResource('entryorders', EntryOrderController::class);
 

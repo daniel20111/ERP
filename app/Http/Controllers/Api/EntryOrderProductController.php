@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Requests\StoreEntryOrderProductRequest;
+use App\Http\Requests\UpdateEntryOrderProductRequest;
+use App\Models\EntryOrderProduct;
+use App\Http\Controllers\Controller;
+
+class EntryOrderProductController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreEntryOrderProductRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreEntryOrderProductRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\EntryOrderProduct  $entryOrderProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function show(EntryOrderProduct $entryOrderProduct)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\EntryOrderProduct  $entryOrderProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(EntryOrderProduct $entryOrderProduct)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\UpdateEntryOrderProductRequest  $request
+     * @param  \App\Models\EntryOrderProduct  $entryOrderProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateEntryOrderProductRequest $request, EntryOrderProduct $entryOrderProduct)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\EntryOrderProduct  $entryOrderProduct
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(EntryOrderProduct $entryOrderProduct)
+    {
+        //
+    }
+}

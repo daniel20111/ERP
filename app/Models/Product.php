@@ -12,14 +12,16 @@ class Product extends Model
 
     protected $fillable = [
         'model_product',
-        'description_product',
         'url_image_product',
         'format_product',
+
+        'description_product',
         'code_product',
         'family_product',
         'finish_product',
         'brand_product',
         'origin_product',
+        
         'unit_measure_product',
         'units_box_product',
         'area_box_product',
@@ -35,4 +37,14 @@ class Product extends Model
         'weight_box_product' => 'float',
         'weight_pallet_product' => 'float',
     ];
+
+    public function entries()
+    {
+        return $this->hasMany(Entry::class);
+    }
+
+    public function entry_order_products()
+    {
+        return $this->hasMany(EntryOrderProduct::class);
+    }
 }
