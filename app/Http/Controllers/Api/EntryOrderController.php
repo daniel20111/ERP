@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EntryOrder\StoreEntryOrderRequest;
 use App\Http\Requests\EntryOrder\UpdateEntryOrderRequest;
+use App\Http\Resources\EntryOrder\EntryOrderResource;
 use App\Http\Resources\EntryOrder\EntryOrderCollection;
 use App\Models\EntryOrder;
-use App\Models\EntryOrderProduct;
-use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Request;
 
 class EntryOrderController extends Controller
@@ -52,9 +51,11 @@ class EntryOrderController extends Controller
      * @param  \App\Models\EntryOrder  $entryOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(EntryOrder $entryOrder)
+    public function show($id)
     {
-        //
+        //$entryOrder = EntryOrder::findOrFail($id);
+        //return $entryOrder;
+        return new EntryOrderResource(EntryOrder::with('entry_order_products')->findOrFail($id));
     }
 
     /**
