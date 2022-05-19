@@ -6,6 +6,10 @@ use App\Http\Requests\StoreEntryOrderProductRequest;
 use App\Http\Requests\UpdateEntryOrderProductRequest;
 use App\Models\EntryOrderProduct;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\EntryOrder\EntryOrderCollection;
+use App\Http\Resources\EntryOrderProduct\EntryOrderProductCollection;
+use App\Http\Resources\EntryOrderProduct\EntryOrderProductResource;
+use Illuminate\Http\Request;
 
 class EntryOrderProductController extends Controller
 {
@@ -14,9 +18,21 @@ class EntryOrderProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has(['verified'])) {
+            if ($request->filled('verified')) {
+                if ($request->verified == 'true') {
+                    $verified_product_entries = EntryOrderProduct::with('entry_order:id,code_entry_order,updated_at,verified_entry_order', 'product:id,model_product')->wherehas('entry_order', function ($query) {
+                        $query->where('verified_entry_order', '=', 'true');
+                    })->get();
+
+                    return new EntryOrderProductCollection($verified_product_entries);
+                }
+                return [];
+            }
+        }
+        return EntryOrderProduct::with('product:id,model_product', 'entry_order:id,code_entry_order')->get();
     }
 
     /**
@@ -46,9 +62,10 @@ class EntryOrderProductController extends Controller
      * @param  \App\Models\EntryOrderProduct  $entryOrderProduct
      * @return \Illuminate\Http\Response
      */
-    public function show(EntryOrderProduct $entryOrderProduct)
+    public function show($id)
     {
-        //
+        //return new EntryOrderProductResource(EntryOrderProduct::findOrFail($id)->with('product')->get());
+        return new EntryOrderProductResource(EntryOrderProduct::with('product:id,model_product,format_product,url_image_product', 'entry_order:id,code_entry_order,created_at,updated_at')->findOrFail($id));
     }
 
     /**

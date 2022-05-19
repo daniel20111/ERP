@@ -20,7 +20,12 @@ class EntryOrderProductResource extends JsonResource
             'entry_order_id' => $this->entry_order_id,
             'product_id' => $this->product_id,
             'quantity' => $this->quantity,
-            'product' => new ProductResource($this->product),
+            'verified' => $this->when($this->verified != null, $this->verified),
+            'error' => $this->when($this->error != null, $this->error),
+
+            'created_at' => $this->when($this->created_at != null, $this->created_at),
+            'product' => $this->when($this->product != null, $this->product),
+            'entry_order' => $this->when($this->entry_order != null, $this->entry_order),
         ];
     }
 }

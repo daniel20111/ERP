@@ -19,6 +19,8 @@ class CreateEntryOrderProductsTable extends Migration
             $table->foreignId('entry_order_id')->constrained()->onUpdate('cascade');
             $table->foreignId('product_id')->constrained()->onUpdate('cascade');
             $table->integer('quantity');
+            $table->boolean('verified');
+            $table->boolean('error');
 
             $table->timestamps();
             $table->softDeletes();

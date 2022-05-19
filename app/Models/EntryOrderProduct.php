@@ -16,6 +16,11 @@ class EntryOrderProduct extends Model
         'quantity',
     ];
 
+    protected $attributes = [
+        'verified' => false,
+        'error' => false,
+    ];
+
     public function entry_order() {
         return $this->belongsTo(EntryOrder::class);
     }

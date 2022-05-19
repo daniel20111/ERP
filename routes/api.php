@@ -13,6 +13,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WarehouseController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\EntryOrderController;
+use App\Http\Controllers\Api\EntryOrderProductController;
+use App\Models\EntryOrderProduct;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,4 +52,7 @@ Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('entries', EntryController::class);
 
 Route::apiResource('entryorders', EntryOrderController::class);
+
+Route::apiResource('product_entries', EntryOrderProductController::class);
+
 

@@ -27,6 +27,16 @@ class ProductController extends Controller
             }
             return [];
         }
+        if ($request->has(['only'])) 
+        {
+            if ($request->filled('only'))
+            {
+                if ($request->only == 'model') {
+                    return new ProductCollection(Product::get(['id', 'model_product']));
+                }
+            }
+            return [];
+        }
         return new ProductCollection(Product::paginate(10));
     }
 

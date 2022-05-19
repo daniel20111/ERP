@@ -25,7 +25,7 @@ class CreateProductsTable extends Migration
             // $table->string('origin_product');
 
             $table->string('model_product');
-            $table->string('description_product')->nullable();
+            $table->text('description_product')->nullable();
             $table->string('url_image_product')->nullable();
             $table->string('format_product');
             $table->string('code_product')->nullable();
