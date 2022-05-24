@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreEntryOrderProductRequest;
-use App\Http\Requests\UpdateEntryOrderProductRequest;
+use App\Http\Requests\EntryOrderProduct\StoreEntryOrderProductRequest;
+use App\Http\Requests\EntryOrderProduct\UpdateEntryOrderProductRequest;
 use App\Models\EntryOrderProduct;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\EntryOrder\EntryOrderCollection;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductCollection;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductResource;
 use Illuminate\Http\Request;

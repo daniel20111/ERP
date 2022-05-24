@@ -17,8 +17,15 @@ class EmployeeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->has('only') && $request->filled('only'))
+        {
+            if ($request->only == 'full_name') {
+                return new EmployeeCollection(Employee::all('id', 'names_employee', 'last_name_employee'));
+            }
+            return [];
+        }
         return new EmployeeCollection(Employee::with('user')->paginate(5));
     }
 

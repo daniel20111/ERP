@@ -13,13 +13,15 @@ class RoleResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+    
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'role' => $this->name_role,
-            'description' => $this->description_role,
-            'modules' => ModuleResource::collection($this->modules)
+            'name_role' => $this->name_role,
+            'description_role' => $this->description_role,
+            //'modules' => ModuleResource::collection($this->modules)
         ];
     }
 }

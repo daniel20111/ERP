@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role_id' => $this->role_id,
             'employee_id' => $this->employee_id,
+            'role' => new RoleResource($this->role),
         ];
         //return parent::toArray($request);
     }

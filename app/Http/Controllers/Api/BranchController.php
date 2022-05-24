@@ -18,8 +18,16 @@ class BranchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('only')) {
+            if ($request->filled('only')) {
+                if ($request->only == 'name') {
+                    return new BranchCollection(Branch::all('id', 'name_branch'));
+                }
+            }
+            return;
+        }
         return new BranchCollection(Branch::paginate(5));
     }
 
@@ -34,8 +42,7 @@ class BranchController extends Controller
         $validatedRequest = $request->validated();
         DB::beginTransaction();
 
-        try 
-        {
+        try {
             foreach ($validatedRequest['branches'] as $branch) {
                 $createdBranch = Branch::create($branch);
                 if (!empty($branch['warehouses'])) {
@@ -49,9 +56,7 @@ class BranchController extends Controller
                 }
             }
             DB::commit();
-        } 
-        catch (\Throwable $th) 
-        {
+        } catch (\Throwable $th) {
             DB::rollBack();
             return response()->json(['message' => 'Database error'], 220);
         }

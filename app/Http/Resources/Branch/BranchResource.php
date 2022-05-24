@@ -18,9 +18,12 @@ class BranchResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name_branch' => $this->name_branch,
-            'address_branch' => $this->address_branch,
+            'id' => $this->when($this->id != null, $this->id),
+            'name_branch' => $this->when($this->name_branch != null, $this->name_branch),
+            'address_branch' => $this->when($this->address_branch != null, $this->address_branch),
+            // 'id' => $this->id,
+            // 'name_branch' => $this->name_branch,
+            // 'address_branch' => $this->address_branch,
             //'warehouses' => new WarehouseCollection($this->warehouses)
         ];
     }

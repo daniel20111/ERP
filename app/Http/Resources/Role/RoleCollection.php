@@ -12,10 +12,9 @@ class RoleCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+    public static $wrap = 'roles';
     public function toArray($request)
     {
-        return [
-            'data' => $this->collection
-        ];
+        return parent::toArray($request);
     }
 }

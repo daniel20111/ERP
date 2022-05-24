@@ -45,7 +45,7 @@ class UserController extends Controller
             return response()->json(['message' => 'user(s) created'], 222);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return response()->json(['message' => 'an error has occured'], 222);
+            return response()->json(['message' => $request->users], 222);
         }
     }
 

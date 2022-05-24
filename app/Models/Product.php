@@ -47,4 +47,8 @@ class Product extends Model
     {
         return $this->hasMany(EntryOrderProduct::class);
     }
+    public function product_requests()
+    {
+        return $this->belongsToMany(ProductRequest::class)->withTimestamps();
+    }
 }

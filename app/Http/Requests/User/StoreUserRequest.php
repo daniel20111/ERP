@@ -4,6 +4,7 @@ namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class StoreUserRequest extends FormRequest
 {
@@ -17,6 +18,13 @@ class StoreUserRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $data = $this->toArray();
+        data_set($data, 'users.*.password_user', Hash::make('123'));
+        $this->merge($data);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,8 +34,8 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'users' => 'present | array | min:1',
-            'users.*' => 'array:email_user,password_user,role_id,employee_id',
-            'users.*.email_user' => 'required | email | distinct | unique:users',
+            'users.*' => 'array:email,role_id,employee_id,password_user',
+            'users.*.email' => 'required | email | distinct | unique:users',
             'users.*.password_user' => 'required',
             'users.*.role_id' => 'required | exists:App\Models\Role,id',
             'users.*.employee_id' => 'required | exists:App\Models\Employee,id'
