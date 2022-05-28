@@ -21,8 +21,9 @@ class EmployeeResource extends JsonResource
             'last_name_employee' => $this->when($this->last_name_employee != null, $this->last_name_employee),
             'CI_employee' => $this->when($this->CI_employee != null, $this->CI_employee),
             'birth_date_employee' => $this->when($this->birth_date_employee != null, $this->birth_date_employee),
-            'user' => $this->when($this->user != null, new UserResource($this->whenLoaded('user'))),
-            //'user' => new UserResource($this->whenLoaded('user')),
+            'branch_id' => $this->when($this->branch_id != null, $this->branch_id),
+            //'user' => $this->when($this->user != null, new UserResource($this->whenLoaded('user'))),
+            'user' => new UserResource($this->whenLoaded('user')),
         
             // 'id' => $this->id,
             // 'names_employee' => $this->names_employee,

@@ -13,7 +13,7 @@ class StoreEntryOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StoreEntryOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'code_entry_order' => ['present'],
+            'entry_order_product' => ['present', 'array', 'min:1'],
+            'entry_order_product.*' => ['array:product_id,quantity'],
+            'entry_order_product.*.product_id' => ['required', 'exists:products,id'],
+            'entry_order_product.*.quantity' => ['required'],
         ];
     }
 }

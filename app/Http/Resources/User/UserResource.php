@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Employee\EmployeeResource;
 use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'role_id' => $this->role_id,
             'employee_id' => $this->employee_id,
-            'role' => new RoleResource($this->role),
+            'role' => new RoleResource($this->whenLoaded('role')),
+            'employee' => new EmployeeResource($this->whenLoaded('employee')),
         ];
         //return parent::toArray($request);
     }

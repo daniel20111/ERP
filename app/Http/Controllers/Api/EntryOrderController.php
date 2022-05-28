@@ -8,7 +8,9 @@ use App\Http\Requests\EntryOrder\UpdateEntryOrderRequest;
 use App\Http\Resources\EntryOrder\EntryOrderResource;
 use App\Http\Resources\EntryOrder\EntryOrderCollection;
 use App\Models\EntryOrder;
+use App\Models\EntryOrderProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EntryOrderController extends Controller
 {
@@ -42,7 +44,25 @@ class EntryOrderController extends Controller
      */
     public function store(StoreEntryOrderRequest $request)
     {
-        //
+        $validateRequest = $request->validated();
+
+        DB::beginTransaction();
+        try 
+        {
+            $created_entry_order = EntryOrder::create($validateRequest);
+            foreach ($validateRequest['entry_order_product'] as $entry_order_product) {
+                $created_entry_order_product = new EntryOrderProduct($entry_order_product);
+                $created_entry_order_product->entry_order()->associate($created_entry_order);
+                $created_entry_order_product->save();
+            }
+            DB::commit();
+            return response()->json(['message' => ''], 200);
+        } 
+        catch (\Throwable $th) 
+        {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
     }
 
     /**

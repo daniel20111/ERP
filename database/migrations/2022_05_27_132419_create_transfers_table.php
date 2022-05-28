@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProductProductRequests extends Migration
+class CreateTransfersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateProductProductRequests extends Migration
      */
     public function up()
     {
-        Schema::create('product_product_requests', function (Blueprint $table) {
+        Schema::create('transfers', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('product_request_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-                
+            $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('verified');
+
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateProductProductRequests extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_product_requests');
+        Schema::dropIfExists('transfers');
     }
 }

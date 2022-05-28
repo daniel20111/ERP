@@ -8,7 +8,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\User\UserCollection;
 use App\Http\Resources\User\UserResource;
-
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -55,9 +55,26 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->has('with') && $request->filled('with'))
+        {
+            if ($request->with == 'modules')
+            {
+                return new UserResource(User::with('role.modules')->findOrFail($id));
+            }
+            if ($request->with == 'role')
+            {
+                return new UserResource(User::with('role')->findOrFail($id));
+            }
+            if ($request->with == 'all')
+            {
+                return new UserResource(User::with('role.modules', 'employee')->findOrFail($id));
+            }
+            
+        }
         return new UserResource(User::findOrFail($id));
+        //return new UserResource(User::findOrFail($id));
     }
 
     /**
@@ -102,7 +119,7 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $request->user()->tokens()->delete();
             $token = $request->user()->createToken('user');
-            return response()->json(['token' => $token->plainTextToken], 200);
+            return response()->json(['token' => $token->plainTextToken, 'user_id' => auth()->user()->id], 200);
         }
 
         return response()->json(['message' => 'nonono'], 512);

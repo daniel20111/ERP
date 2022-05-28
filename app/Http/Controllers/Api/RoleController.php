@@ -11,6 +11,7 @@ use App\Models\Access;
 use App\Models\Role;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
@@ -69,8 +70,14 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->has('with') && $request->filled('with')) 
+        {
+            if ($request->with == 'modules') {
+                return new RoleResource(Role::with('modules')->findOrFail($id));
+            }
+        }
         return new RoleResource(Role::findOrFail($id));
     }
 
