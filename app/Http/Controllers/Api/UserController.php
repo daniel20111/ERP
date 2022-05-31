@@ -24,7 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return new UserCollection(User::with('role')->paginate(5));
+        return new UserCollection(User::with('role', 'employee')->get());
     }
 
     /**
@@ -73,7 +73,7 @@ class UserController extends Controller
             }
             
         }
-        return new UserResource(User::findOrFail($id));
+        return new UserResource(User::with('role', 'employee')->findOrFail($id));
         //return new UserResource(User::findOrFail($id));
     }
 

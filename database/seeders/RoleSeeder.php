@@ -26,5 +26,9 @@ class RoleSeeder extends Seeder
         $role->modules()->attach(3);
         $role->modules()->attach(4);
         $role->modules()->attach(5);
+        $role->modules()->attach(6);
+        $role->modules()->attach(7);
+        $role->modules()->attach(8);
+        $role->modules()->attach(9);
     }
 }

@@ -13,13 +13,13 @@ class User extends Authenticatable
 
     protected $fillable = [
         'email',
-        'password_user',
+        'password',
         'role_id',
         'employee_id'
     ];
 
     protected $hidden = [
-        'password_user'
+        'password'
     ];
 
     public function role()
@@ -32,8 +32,8 @@ class User extends Authenticatable
         return $this->belongsTo(Employee::class);
     }
 
-    public function getAuthPassword()
-    {
-        return $this->password_user;
-    }
+    // public function getAuthPassword()
+    // {
+    //     return $this->password_user;
+    // }
 }

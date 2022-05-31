@@ -16,6 +16,11 @@ class ModuleSeeder extends Seeder
     public function run()
     {
         Module::create([
+            'name_module' => 'Inicio',
+            'icon_module' => '0xf05a0',
+            'route_module' => 'homepage',
+        ]);
+        Module::create([
             'name_module' => 'Productos',
             'icon_module' => '0xe185',
             'route_module' => 'product',
@@ -39,6 +44,21 @@ class ModuleSeeder extends Seeder
             'name_module' => 'Sucursales',
             'icon_module' => '0xf05a0',
             'route_module' => 'branch',
+        ]);
+        Module::create([
+            'name_module' => 'Ingresos',
+            'icon_module' => '0xf05a0',
+            'route_module' => 'entry',
+        ]);
+        Module::create([
+            'name_module' => 'Orden de Ingreso',
+            'icon_module' => '0xf05a0',
+            'route_module' => 'product_entry',
+        ]);
+        Module::create([
+            'name_module' => 'Orden de Traspaso',
+            'icon_module' => '0xf05a0',
+            'route_module' => 'product_request',
         ]);
     }
 }

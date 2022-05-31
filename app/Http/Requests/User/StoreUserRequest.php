@@ -21,7 +21,7 @@ class StoreUserRequest extends FormRequest
     protected function prepareForValidation()
     {
         $data = $this->toArray();
-        data_set($data, 'users.*.password_user', Hash::make('123'));
+        data_set($data, 'users.*.password', Hash::make('123'));
         $this->merge($data);
     }
 
@@ -34,9 +34,9 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'users' => 'present | array | min:1',
-            'users.*' => 'array:email,role_id,employee_id,password_user',
+            'users.*' => 'array:email,role_id,employee_id,password',
             'users.*.email' => 'required | email | distinct | unique:users',
-            'users.*.password_user' => 'required',
+            'users.*.password' => 'required',
             'users.*.role_id' => 'required | exists:App\Models\Role,id',
             'users.*.employee_id' => 'required | exists:App\Models\Employee,id'
         ];

@@ -26,9 +26,9 @@ class StoreTransferRequest extends FormRequest
         return [
             'branch_id' => ['present', 'exists:branches,id'],
             'user_id' => ['present', 'exists:users,id'],
-            'product_transfer' => ['present', 'array', 'min:1'],
-            'product_transfer.*.product_id' => ['required', 'exists:products,id'],
-            'product_transfer.*.quantity' => ['required'],
+            'product_transfers' => ['present', 'array', 'min:1'],
+            'product_transfers.*.product_id' => ['required', 'exists:products,id'],
+            'product_transfers.*.quantity' => ['required'],
         ];
     }
 }

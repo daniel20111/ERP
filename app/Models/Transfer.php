@@ -13,6 +13,7 @@ class Transfer extends Model
     protected $fillable = [
         'branch_id',
         'user_id',
+        'verified',
     ];
 
     protected $attributes = [
@@ -32,5 +33,10 @@ class Transfer extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function transfer_order()
+    {
+        return $this->belongsTo(TransferOrder::class);
     }
 }

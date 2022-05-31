@@ -21,6 +21,7 @@ class CreateProductTransfersTable extends Migration
             $table->integer('quantity');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
