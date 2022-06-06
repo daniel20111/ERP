@@ -22,13 +22,17 @@ class TransferOrderResource extends JsonResource
             'received' => $this->received,
             'received_by' => $this->when($this->received_by != null, $this->received_by),
             'send_by' => $this->when($this->send_by != null, $this->send_by),
+
+            'send_date' => $this->when($this->send_date != null, $this->send_date),
+            'received_date' => $this->when($this->received_date != null, $this->received_date),
+
             'transfer_id' => $this->when($this->transfer_id != null, $this->transfer_id),
             'created_at' => $this->when($this->created_at != null, $this->created_at),
             'updated_at' => $this->when($this->updated_at != null, $this->updated_at),
 
             'transfer' => new TransferResource($this->whenLoaded('transfer')), 
-            'sent_by' => new UserResource($this->whenLoaded('sent_by')),
-            'received_by' => new UserResource($this->whenLoaded('received_by')),
+            'sent_by_user' => new UserResource($this->whenLoaded('sent_by_user')),
+            'received_by_user' => new UserResource($this->whenLoaded('received_by_user')),
         ];
         //return parent::toArray($request);
     }

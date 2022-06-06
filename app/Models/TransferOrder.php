@@ -33,12 +33,12 @@ class TransferOrder extends Model
         return $this->belongsTo(Transfer::class);
     }
 
-    public function sent_by()
+    public function sent_by_user()
     {
         return $this->belongsTo(User::class, 'send_by', 'id');
     }
 
-    public function received_by()
+    public function received_by_user()
     {
         return $this->belongsTo(User::class, 'received_by', 'id');
     }

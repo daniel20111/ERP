@@ -23,10 +23,10 @@ class ProductFactory extends Factory
         'brand_product' => $this->faker->company(),
         'origin_product' => $this->faker->country() */
 
-        'model_product' => $this->faker->name(),
+        'model_product' => $this->faker->colorName(),
         'description_product' => $this->faker->paragraph(),
         'url_image_product' => $this->faker->url(),
-        'format_product' => $this->faker->randomElement(),
+        'format_product' => $this->faker->randomElement(['40x40', '60x60', '80x80']),
         'code_product' => $this->faker->countryCode(),
         'family_product' => $this->faker->freeEmail(),
         'finish_product' => $this->faker->randomElement(),

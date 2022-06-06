@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\WarehouseController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\EntryOrderController;
 use App\Http\Controllers\Api\EntryOrderProductController;
+use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\TransferOrderController;
 use App\Models\EntryOrderProduct;
@@ -62,8 +63,11 @@ Route::apiResource('transfers', TransferController::class);
 
 Route::middleware('auth:sanctum')->apiResource('transfer_orders', TransferOrderController::class);
 Route::middleware('auth:sanctum')->post('/transfer_orders/register_transfer/{id}', [TransferOrderController::class, 'register_transfer']);
-//Route::post('/transfer_orders/register_transfer/{id}', [TransferOrderController::class, 'register_transfer']);
-Route::post('/transfer_orders/register_reception/{id}', [TransferOrderController::class, 'register_reception']);
+Route::middleware('auth:sanctum')->post('/transfer_orders/register_reception/{id}', [TransferOrderController::class, 'register_reception']);
+Route::get('transfer_orders/try/{id}', [TransferOrderController::class, 'try']);
+//Route::post('/transfer_orders/register_reception/{id}', [TransferOrderController::class, 'register_reception']);
 //Route::apiResource('transfer_orders', TransferOrderController::class);
+//Route::post('/transfer_orders/register_transfer/{id}', [TransferOrderController::class, 'register_transfer']);
 
+Route::apiResource('sales', SaleController::class);
 
