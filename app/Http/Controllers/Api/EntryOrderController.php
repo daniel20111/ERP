@@ -9,6 +9,7 @@ use App\Http\Resources\EntryOrder\EntryOrderResource;
 use App\Http\Resources\EntryOrder\EntryOrderCollection;
 use App\Models\EntryOrder;
 use App\Models\EntryOrderProduct;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -47,8 +48,7 @@ class EntryOrderController extends Controller
         $validateRequest = $request->validated();
 
         DB::beginTransaction();
-        try 
-        {
+        try {
             $created_entry_order = EntryOrder::create($validateRequest);
             foreach ($validateRequest['entry_order_product'] as $entry_order_product) {
                 $created_entry_order_product = new EntryOrderProduct($entry_order_product);
@@ -57,9 +57,7 @@ class EntryOrderController extends Controller
             }
             DB::commit();
             return response()->json(['message' => ''], 200);
-        } 
-        catch (\Throwable $th) 
-        {
+        } catch (\Throwable $th) {
             DB::rollback();
             return response()->json(['error' => $th], 500);
         }
@@ -99,5 +97,28 @@ class EntryOrderController extends Controller
     public function destroy(EntryOrder $entryOrder)
     {
         //
+    }
+
+    public function verify($id)
+    {
+        DB::beginTransaction();
+        try {
+            $entry_order = EntryOrder::findOrFail($id);
+            if ($entry_order->verified_entry_order == true) 
+            {
+                throw new Exception('Entrada ya verificada');
+            }
+
+            $entry_order->verified_entry_order = true;
+            $entry_order->save();
+
+            DB::commit();
+            return response()->json(['message' => $entry_order], 200);
+        } 
+        catch (\Throwable $th) 
+        {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
     }
 }

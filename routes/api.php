@@ -54,6 +54,7 @@ Route::apiResource('employees', EmployeeController::class);
 
 Route::apiResource('entries', EntryController::class);
 
+Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);
 Route::apiResource('entryorders', EntryOrderController::class);
 
 Route::apiResource('product_entries', EntryOrderProductController::class);
