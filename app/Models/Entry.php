@@ -12,20 +12,23 @@ class Entry extends Model
 
     protected $fillable = [
         'quantity_entry',
-        'supplier_entry',
-        'note_entry',
-        'verified_entry',
-        'error_entry',
-        'product_id'
-    ];
-
-    protected $attributes = [
-        'verified_entry' => false,
-        'error_entry' => false,
+        'product_id',
+        'section_id',
+        'entry_order_products_id',
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
+    public function entry_order()
+    {
+        return $this->belongsTo(EntryOrderProduct::class);
     }
 }

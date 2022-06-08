@@ -21,10 +21,11 @@ class BranchResource extends JsonResource
             'id' => $this->when($this->id != null, $this->id),
             'name_branch' => $this->when($this->name_branch != null, $this->name_branch),
             'address_branch' => $this->when($this->address_branch != null, $this->address_branch),
+            'type_branch' => $this->when($this->type_branch != null, $this->type_branch),
             // 'id' => $this->id,
             // 'name_branch' => $this->name_branch,
             // 'address_branch' => $this->address_branch,
-            //'warehouses' => new WarehouseCollection($this->warehouses)
+            'warehouses' => new WarehouseCollection($this->whenLoaded('warehouses')),
         ];
     }
 }

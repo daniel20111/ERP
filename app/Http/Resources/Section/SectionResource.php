@@ -14,6 +14,9 @@ class SectionResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->when($this->id != null, $this->id),
+            'name_section' => $this->when($this->name_section != null, $this->name_section),
+        ];
     }
 }

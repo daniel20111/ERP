@@ -18,7 +18,7 @@ class WarehouseResource extends JsonResource
         return [
             'id' => $this->id,
             'name_warehouse' => $this->name_warehouse,
-            //'sections' => new SectionCollection($this->sections)
+            'sections' => new SectionCollection($this->whenLoaded('sections')),
         ];
     }
 }

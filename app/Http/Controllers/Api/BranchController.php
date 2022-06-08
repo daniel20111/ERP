@@ -70,7 +70,7 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        return new BranchResource(Branch::findOrFail($id));
+        return new BranchResource(Branch::with('warehouses', 'warehouses.sections')->findOrFail($id));
     }
 
     /**

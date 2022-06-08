@@ -19,7 +19,7 @@ class EmployeeFactory extends Factory
             'last_name_employee' => $this->faker->lastName(),
             'CI_employee' => $this->faker->phoneNumber(),
             'birth_date_employee' => $this->faker->date(),
-            'branch_id' => Branch::factory()
+            'branch_id' => 1,
         ];
     }
 }

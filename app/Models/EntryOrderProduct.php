@@ -28,4 +28,8 @@ class EntryOrderProduct extends Model
     public function product() {
         return $this->belongsTo(Product::class);
     }
+
+    public function entries() {
+        return $this->hasMany(Entry::class);
+    }
 }

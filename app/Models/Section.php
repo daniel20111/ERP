@@ -12,10 +12,14 @@ class Section extends Model
 
     protected $fillable = [
         'name_section',
-        'warehouse_id'
+        'warehouse_id',
     ];
 
     public function warehouse() {
         return $this->belongsTo(Warehouse::class);
+    }
+
+    public function entries() {
+        return $this->hasMany(Entry::class);
     }
 }

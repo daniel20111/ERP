@@ -18,15 +18,15 @@ class EntryController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has(['with'])) {
-            if ($request->filled('with')) {
-                if($request->query('with') == 'product')
-                {
-                    return new EntryCollection(Entry::with('product')->get());                    
-                }
-            }
-        }
-        return new EntryCollection(Entry::all());
+        // if ($request->has(['with'])) {
+        //     if ($request->filled('with')) {
+        //         if($request->query('with') == 'product')
+        //         {
+        //             return new EntryCollection(Entry::with('product')->get());                    
+        //         }
+        //     }
+        // }
+        // return new EntryCollection(Entry::all());
     }
 
     /**

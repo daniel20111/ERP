@@ -17,12 +17,10 @@ class CreateEntriesTable extends Migration
             $table->id();
 
             $table->integer('quantity_entry');
-            $table->string('supplier_entry');
-            $table->text('note_entry')->nullable();
-            $table->boolean('verified_entry');
-            $table->boolean('error_entry');
 
-            $table->foreignId('product_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('section_id')->constrained();
+            $table->foreignId('entry_order_products_id')->constrained();
 
             $table->timestamps();
             $table->softDeletes();

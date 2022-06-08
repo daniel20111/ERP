@@ -63,7 +63,7 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
-        //
+        return Warehouse::with('sections')->findOrFail($id);
     }
 
     /**

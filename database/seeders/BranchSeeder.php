@@ -16,6 +16,7 @@ class BranchSeeder extends Seeder
      */
     public function run()
     {
-        Branch::factory()->count(5)->has(Warehouse::factory()->count(4)->has(Section::factory()->count(3)))->create();
+        Branch::factory()->has(Warehouse::factory()->count(4)->has(Section::factory()->count(3)))->state(['type_branch' => 'Casa Matriz'])->create();
+        Branch::factory()->count(4)->has(Warehouse::factory()->count(4)->has(Section::factory()->count(3)))->create();
     }
 }
