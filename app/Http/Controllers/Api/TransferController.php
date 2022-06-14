@@ -9,10 +9,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Transfer\TransferCollection;
 use App\Http\Resources\Transfer\TransferResource;
 use App\Http\Resources\User\UserCollection;
+use App\Models\Egress;
 use App\Models\ProductTransfer;
 use App\Models\TransferOrder;
+use App\Models\Entry;
+use App\Models\Product;
 use Illuminate\Support\Facades\DB;
-
+use Exception;
 
 class TransferController extends Controller
 {
@@ -112,6 +115,59 @@ class TransferController extends Controller
         DB::beginTransaction();
         try {
             $transfer = Transfer::findOrFail($id);
+
+            if ($transfer->verified == true)
+            {
+                throw new Exception('Ya se verifico esta solicitud de transferencia');
+            }
+
+            foreach($transfer->product_transfers as $product_transfer)
+            {
+                $remain = Entry::where('product_id', '=', $product_transfer->product_id)->sum('quantity_entry');
+                
+                if ($remain < $product_transfer->quantity)
+                {
+                    $missing_units = $product_transfer->quantity - $remain;
+                    $product = Product::findOrFail($product_transfer->product_id);
+                    throw new Exception('No se puede completar la solicitud. Faltan '.$missing_units.' unidades del producto '. $product->model_product);
+                }
+                
+                
+                $entries = Entry::where('product_id', '=', $product_transfer->product_id)->where('remain_entry', '>', 0)->orderBy('created_at')->get();
+                
+                $assigned = $product_transfer->quantity;
+                foreach ($entries as $entry)
+                {
+                    if ($assigned <= $entry->remain_entry)
+                    {
+                        $egress = new Egress;
+                        $egress->quantity_egress = $assigned;
+                        $egress->product_id = $product_transfer->product_id;
+                        $egress->entry_id = $entry->id;
+                        $egress->product_transfer_id = $product_transfer->id;
+                        $egress->save();
+
+                        $entry->remain_entry = $entry->remain_entry - $assigned;
+                        $entry->save();
+                        break;
+                    }
+                    if ($assigned > $entry->remain_entry)
+                    {
+                        $assigned = $assigned - $entry->remain_entry;
+
+                        $egress = new Egress;
+                        $egress->quantity_egress = $entry->remain_entry;
+                        $egress->product_id = $product_transfer->product_id;
+                        $egress->entry_id = $entry->id;
+                        $egress->product_transfer_id = $product_transfer->id;
+                        $egress->save();
+
+                        $entry->remain_entry = 0;
+                        $entry->save();
+                    }
+                }
+            }
+
             $transfer->verified = true;
             $transfer->save();
 
@@ -121,9 +177,9 @@ class TransferController extends Controller
 
             DB::commit();
             return response()->json(['message' => ''], 200);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             DB::rollback();
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

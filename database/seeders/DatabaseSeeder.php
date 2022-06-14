@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             EntryOrderSeeder::class,
             EntryOrderProductSeeder::class,
 
-            SaleSeeder::class,
+           // SaleSeeder::class,
         ]);
     }
 }

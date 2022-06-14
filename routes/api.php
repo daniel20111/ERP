@@ -47,9 +47,9 @@ Route::apiResource('branches', BranchController::class);
 Route::apiResource('warehouses', WarehouseController::class);
 Route::apiResource('sections', SectionController::class);
 
-Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
-//Route::get('/productSearch', [ProductController::class, 'search']);
-//Route::apiResource('products', ProductController::class);
+//Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
+Route::get('/productSearch', [ProductController::class, 'search']);
+Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
 
 Route::apiResource('entries', EntryController::class);
@@ -57,6 +57,7 @@ Route::apiResource('entries', EntryController::class);
 Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);
 Route::apiResource('entryorders', EntryOrderController::class);
 
+Route::post('/product_entries/verify/{id}', [EntryOrderProductController::class, 'verifyEntryOrder']);
 Route::apiResource('product_entries', EntryOrderProductController::class);
 
 Route::post('/transfers/validate/{id}', [TransferController::class, 'generate_transfer_order']);

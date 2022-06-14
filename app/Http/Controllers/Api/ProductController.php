@@ -34,6 +34,9 @@ class ProductController extends Controller
                 if ($request->only == 'model') {
                     return new ProductCollection(Product::get(['id', 'model_product']));
                 }
+                if ($request->only == 'basicInfo') {
+                    return new ProductCollection(Product::get(['id', 'model_product', 'format_product', 'url_image_product']));
+                }
             }
             return [];
         }
@@ -70,8 +73,21 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->has(['only'])) 
+        {
+            if ($request->filled('only'))
+            {
+                if ($request->only == 'model') {
+                    return new ProductResource(Product::findOrFail($id, ['id', 'model_product']));
+                }
+                if ($request->only == 'basicInfo') {
+                    return new ProductResource(Product::findOrFail($id, ['id', 'model_product', 'format_product', 'url_image_product']));
+                }
+            }
+            return [];
+        }
         return new ProductResource(Product::findOrFail($id));
     }
 

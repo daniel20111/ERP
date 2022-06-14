@@ -27,6 +27,17 @@ class EntryController extends Controller
         //     }
         // }
         // return new EntryCollection(Entry::all());
+
+        if ($request->has(['product'])) {
+            if ($request->filled('product')) {
+                if (filter_var($request->query('product'), FILTER_VALIDATE_INT) == true) {
+                    $product_id = intval($request->query('product'));
+                    return new EntryCollection(Entry::where('product_id', '=', $product_id)->with(['section', 'section.warehouse', 'entry_order_products', 'entry_order_products.entry_order'])->orderBy('created_at')->get());
+                }
+            }
+        }
+
+        return Entry::groupBy('product_id')->selectRaw('sum(remain_entry) as quantity, product_id')->get();
     }
 
     /**

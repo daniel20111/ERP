@@ -13,7 +13,7 @@ class StoreEntryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StoreEntryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'quantity_entry' => ['present', 'required'],
+            'remain_entry' => ['present', 'required'],
+            'product_id' => ['present', 'required', 'exists:products,id'],
+            'section_id' => ['present', 'required', 'exists:sections,id'],
+            'entry_order_products_id' => ['present', 'required', 'exists:entry_order_products,id'],
         ];
     }
 }

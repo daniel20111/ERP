@@ -6,9 +6,12 @@ use App\Http\Requests\EntryOrderProduct\StoreEntryOrderProductRequest;
 use App\Http\Requests\EntryOrderProduct\UpdateEntryOrderProductRequest;
 use App\Models\EntryOrderProduct;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Entry\StoreEntryRequest;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductCollection;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductResource;
+use App\Models\Entry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EntryOrderProductController extends Controller
 {
@@ -24,7 +27,7 @@ class EntryOrderProductController extends Controller
                 if ($request->verified == 'true') {
                     $verified_product_entries = EntryOrderProduct::with('entry_order:id,code_entry_order,updated_at,verified_entry_order', 'product:id,model_product')->wherehas('entry_order', function ($query) {
                         $query->where('verified_entry_order', '=', 'true');
-                    })->get();
+                    })->get()->sortByDesc('created_at');
 
                     return new EntryOrderProductCollection($verified_product_entries);
                 }
@@ -99,5 +102,25 @@ class EntryOrderProductController extends Controller
     public function destroy(EntryOrderProduct $entryOrderProduct)
     {
         //
+    }
+
+    public function verifyEntryOrder($id, StoreEntryRequest $request)
+    {
+        $validatedRequest = $request->validated();
+        DB::beginTransaction();
+        try {
+            $entryOrderProduct = EntryOrderProduct::findOrFail($id);
+            $entryOrderProduct->verified = true;
+
+            Entry::create($validatedRequest);
+
+            $entryOrderProduct->save();
+
+            DB::commit();
+            return response()->json(['message' => ''], 200);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
     }
 }

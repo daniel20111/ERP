@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntriesTable extends Migration
+class CreateEgressesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,15 @@ class CreateEntriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('entries', function (Blueprint $table) {
+        Schema::create('egresses', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('quantity_entry');
-            $table->integer('remain_entry');
+            $table->integer('quantity_egress');
 
             $table->foreignId('product_id')->constrained();
-            $table->foreignId('section_id')->constrained();
-            $table->foreignId('entry_order_products_id')->constrained();
-
+            $table->foreignId('entry_id')->constrained();
+            $table->foreignId('product_transfer_id')->constrained();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -35,6 +32,6 @@ class CreateEntriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entries');
+        Schema::dropIfExists('egresses');
     }
 }

@@ -30,7 +30,7 @@ class EntryOrderController extends Controller
                 # code...
             }
         }
-        return (new EntryOrderCollection(EntryOrder::all()));
+        return (new EntryOrderCollection(EntryOrder::all()->sortByDesc('created_at')));
         // foreach ($entryOrder->products as $product) {
         //     dump($product->pivot);
         // }

@@ -12,6 +12,7 @@ class Entry extends Model
 
     protected $fillable = [
         'quantity_entry',
+        'remain_entry',
         'product_id',
         'section_id',
         'entry_order_products_id',
@@ -27,7 +28,7 @@ class Entry extends Model
         return $this->belongsTo(Section::class);
     }
 
-    public function entry_order()
+    public function entry_order_products()
     {
         return $this->belongsTo(EntryOrderProduct::class);
     }
