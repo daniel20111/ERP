@@ -116,7 +116,7 @@ class TransferController extends Controller
         try {
             $transfer = Transfer::findOrFail($id);
 
-            if ($transfer->verified == true)
+            if ($transfer->verified)
             {
                 throw new Exception('Ya se verifico esta solicitud de transferencia');
             }
@@ -124,17 +124,17 @@ class TransferController extends Controller
             foreach($transfer->product_transfers as $product_transfer)
             {
                 $remain = Entry::where('product_id', '=', $product_transfer->product_id)->sum('quantity_entry');
-                
+
                 if ($remain < $product_transfer->quantity)
                 {
                     $missing_units = $product_transfer->quantity - $remain;
                     $product = Product::findOrFail($product_transfer->product_id);
                     throw new Exception('No se puede completar la solicitud. Faltan '.$missing_units.' unidades del producto '. $product->model_product);
                 }
-                
-                
+
+
                 $entries = Entry::where('product_id', '=', $product_transfer->product_id)->where('remain_entry', '>', 0)->orderBy('created_at')->get();
-                
+
                 $assigned = $product_transfer->quantity;
                 foreach ($entries as $entry)
                 {
