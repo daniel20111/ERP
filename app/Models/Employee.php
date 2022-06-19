@@ -25,6 +25,6 @@ class Employee extends Model
 
     public function branch()
     {
-        return $this->hasOne(Branch::class);
+        return $this->belongsTo(Branch::class);
     }
 }

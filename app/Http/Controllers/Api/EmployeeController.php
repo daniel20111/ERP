@@ -26,7 +26,7 @@ class EmployeeController extends Controller
             }
             return [];
         }
-        return new EmployeeCollection(Employee::with('user')->paginate(5));
+        return new EmployeeCollection(Employee::with(['user', 'user.role', 'branch'])->paginate(5));
     }
 
     /**
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        return new EmployeeResource(Employee::with('user')->findOrFail($id));
+        return new EmployeeResource(Employee::with('user', 'branch', 'user.role')->findOrFail($id));
     }
 
     /**

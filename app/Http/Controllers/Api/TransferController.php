@@ -15,6 +15,7 @@ use App\Models\TransferOrder;
 use App\Models\Entry;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Exception;
 
 class TransferController extends Controller
@@ -24,8 +25,16 @@ class TransferController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('branch'))
+        {
+            if ($request->filled('branch'))
+            {
+
+                return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->where('branch_id', '=', $request->branch)->orderByDesc('created_at')->get());
+            }
+        }
         return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->orderByDesc('created_at')->get());
     }
 

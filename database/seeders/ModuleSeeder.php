@@ -16,14 +16,19 @@ class ModuleSeeder extends Seeder
     public function run()
     {
         Module::create([
-            'name_module' => 'Inicio',
-            'icon_module' => '0xf05a0',
-            'route_module' => 'homepage',
+            'name_module' => 'Dashboard',
+            'icon_module' => '0xe1b1',
+            'route_module' => 'dashboard',
+        ]);
+        Module::create([
+            'name_module' => 'Usuarios',
+            'icon_module' => '0xe61f',
+            'route_module' => 'users',
         ]);
         Module::create([
             'name_module' => 'Productos',
-            'icon_module' => '0xe185',
-            'route_module' => 'product',
+            'icon_module' => '0xe1ae',
+            'route_module' => 'products',
         ]);
         Module::create([
             'name_module' => 'Inventarios',
@@ -31,34 +36,24 @@ class ModuleSeeder extends Seeder
             'route_module' => 'inventory',
         ]);
         Module::create([
-            'name_module' => 'Facturación',
-            'icon_module' => '0xe481',
-            'route_module' => 'billing',
-        ]);
-        Module::create([
-            'name_module' => 'Empleados',
-            'icon_module' => '0xe61e',
-            'route_module' => 'employee',
-        ]);
-        Module::create([
-            'name_module' => 'Sucursales',
+            'name_module' => 'Almacenes',
             'icon_module' => '0xf05a0',
-            'route_module' => 'branch',
+            'route_module' => 'warehouses',
         ]);
         Module::create([
-            'name_module' => 'Ingresos',
-            'icon_module' => '0xf05a0',
-            'route_module' => 'entry',
+            'name_module' => 'Cotizaciones',
+            'icon_module' => '0xe0eb',
+            'route_module' => 'quotations',
         ]);
         Module::create([
-            'name_module' => 'Orden de Ingreso',
-            'icon_module' => '0xf05a0',
-            'route_module' => 'product_entry',
+            'name_module' => 'Ventas',
+            'icon_module' => '0xe4d8',
+            'route_module' => 'sales',
         ]);
         Module::create([
-            'name_module' => 'Orden de Traspaso',
-            'icon_module' => '0xf05a0',
-            'route_module' => 'product_request',
+            'name_module' => 'Facturas',
+            'icon_module' => '0xf311',
+            'route_module' => 'invoices',
         ]);
     }
 }

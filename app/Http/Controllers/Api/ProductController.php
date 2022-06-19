@@ -40,7 +40,7 @@ class ProductController extends Controller
             }
             return [];
         }
-        return new ProductCollection(Product::paginate(10));
+        return new ProductCollection(Product::all());
     }
 
 
@@ -100,7 +100,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**

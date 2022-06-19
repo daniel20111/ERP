@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Employee;
 
+use App\Http\Resources\Branch\BranchResource;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,7 @@ class EmployeeResource extends JsonResource
             'branch_id' => $this->when($this->branch_id != null, $this->branch_id),
             //'user' => $this->when($this->user != null, new UserResource($this->whenLoaded('user'))),
             'user' => new UserResource($this->whenLoaded('user')),
+            'branch' => new BranchResource($this->whenLoaded('branch')),
         
             // 'id' => $this->id,
             // 'names_employee' => $this->names_employee,

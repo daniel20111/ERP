@@ -397,4 +397,36 @@ class TransferOrderController extends Controller
 
         return $CDF;
     }
+
+    final function eoq($ch, $c0, $demand, $time, $inventoryCost, array $data, $distribution)
+    {
+        $Q = sqrt(($time * $c0 * $demand) / $ch);
+
+        switch($distribution)
+        {
+            case 'normal':
+                sort($data);
+                $sd = Descriptive::sd($data);
+                $mean = Average::mean($data);
+                $normal = new Continuous\Normal($mean, $sd);
+
+                $sample_mean = $demand  / 12;
+                $sample_sd = $sd / sqrt(12);
+
+                $ip = ($ch * $demand) / ($inventoryCost * $demand);
+
+                $icdf = $normal->inverse($ip);
+
+                $R = ($icdf * $sample_sd) - $sample_mean;
+
+                return [$Q, $R];
+                break;
+            case 'uniform':
+                //TODO
+                break;
+            case 'exponential':
+                //TODO
+                break;  
+        }
+    }
 }

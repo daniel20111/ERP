@@ -78,7 +78,7 @@ class EntryOrderProductController extends Controller
      */
     public function edit(EntryOrderProduct $entryOrderProduct)
     {
-        //
+        
     }
 
     /**
