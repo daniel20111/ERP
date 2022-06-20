@@ -56,4 +56,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductSale::class);
     }
+
+    public function product_quotations()
+    {
+        return $this->hasMany(ProductQuotation::class);
+    }
 }

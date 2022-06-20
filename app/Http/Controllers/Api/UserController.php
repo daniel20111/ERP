@@ -25,6 +25,9 @@ class UserController extends Controller
     public function index()
     {
         return new UserCollection(User::with('role', 'employee')->get());
+        // $user = User::where('id', '=', 6)->with('employee')->get();
+        // $id = $user[0]->employee->branch_id;
+        // return $id;
     }
 
     /**

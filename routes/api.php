@@ -17,8 +17,8 @@ use App\Http\Controllers\Api\EntryOrderProductController;
 use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\TransferOrderController;
-use App\Models\EntryOrderProduct;
-use App\Models\TransferOrder;
+use App\Http\Controllers\Api\QuotationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,3 +73,4 @@ Route::get('transfer_orders/try/{id}', [TransferOrderController::class, 'try']);
 
 Route::apiResource('sales', SaleController::class);
 
+Route::apiResource('quotations', QuotationController::class);
