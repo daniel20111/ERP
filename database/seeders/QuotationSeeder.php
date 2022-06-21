@@ -16,6 +16,6 @@ class QuotationSeeder extends Seeder
      */
     public function run()
     {
-        Quotation::factory()->count(30)->has(ProductQuotation::factory()->count(3))->create();
+        Quotation::factory()->count(50)->has(ProductQuotation::factory()->count(3))->create();
     }
 }
