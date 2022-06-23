@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Price;
-use App\Models\Product;
 use Illuminate\Database\Seeder;
 
-class ProductSeeder extends Seeder
+class PriceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +13,6 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::factory()->count(10)->has(Price::factory())->create();
+        //
     }
 }

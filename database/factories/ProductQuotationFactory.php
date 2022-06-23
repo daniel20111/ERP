@@ -13,7 +13,7 @@ class ProductQuotationFactory extends Factory
      */
     public function definition()
     {
-        $quantity = $this->faker->randomNumber(2);
+        $quantity = $this->faker->randomNumber(2, true);
         $unit_price = $this->faker->randomFloat(2, 80, 300);
         $total_price = $quantity * $unit_price;
         return [

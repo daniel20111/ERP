@@ -16,8 +16,12 @@ class CreateSalesTable extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
 
+            $table->decimal('total_sale');
+            $table->timestamp('date_sale');
+
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('branch_id')->constrained('branches');
+            $table->foreignId('quotation_id')->nullable()->constrained();
 
             $table->timestamps();
             $table->softDeletes();

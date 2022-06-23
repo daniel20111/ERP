@@ -22,7 +22,7 @@ class QuotationFactory extends Factory
             'name_quotation' => $this->faker->lastName(),
             'price_quotation' => $this->faker->randomFloat(2, 500, 5000),
             'date_quotation' => $this->faker->dateTimeThisYear(),
-            'expiration_date' => $this->faker->dateTimeThisYear(),
+            'expiration_date' => $this->faker->dateTimeThisMonth(),
             'user_id' => $user_id,
             'branch_id' => $branch_id,
         ];

@@ -41,6 +41,8 @@ class ProductController extends Controller
             return [];
         }
         return new ProductCollection(Product::all());
+        //$product = Product::where('id', '=', 1)->with('prices')->get();
+        //return $product[0]->prices[0]->price;
     }
 
 

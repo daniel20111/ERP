@@ -11,8 +11,11 @@ class Sale extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'total_sale',
+        'date_sale',
         'user_id',
         'branch_id',
+        'quotation_id',
     ];
 
     public function user()
@@ -23,6 +26,11 @@ class Sale extends Model
     public function branch()
     {
         return $this->belongsTo(Branch::class);
+    }
+
+    public function quotation()
+    {
+        return $this->belongsTo(Quotation::class);
     }
 
     public function productSale()

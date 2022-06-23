@@ -15,6 +15,7 @@ class SaleSeeder extends Seeder
      */
     public function run()
     {
+        //Quotation::factory()->count(50)->has(ProductQuotation::factory()->count(3))->create();
         Sale::factory()->count(200)->has(ProductSale::factory()->count(4))->create();
     }
 }
