@@ -24,7 +24,7 @@ class QuotationController extends Controller
         //dump(Carbon::now()->month);
         //return new QuotationCollection(Quotation::with('productQuotation')->whereMonth('date_quotation', Carbon::now()->month)->get());
         //return new QuotationCollection(Quotation::whereMonth('date_quotation', Carbon::now()->month)->get());
-        return new QuotationCollection(Quotation::all());
+        return new QuotationCollection(Quotation::all()->sortByDesc('date_quotation'));
     }
 
     /**
