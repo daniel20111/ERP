@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductSale\StoreProductSaleRequest;
 use App\Http\Requests\ProductSale\UpdateProductSaleRequest;
 use App\Models\ProductSale;
+use Carbon\Carbon;
 
 class ProductSaleController extends Controller
 {
@@ -82,5 +84,18 @@ class ProductSaleController extends Controller
     public function destroy(ProductSale $productSale)
     {
         //
+    }
+
+    public function stimateTime($id)
+    {
+        //$productSale = ProductSale::where('product_id', '=', $id)->get();
+        for ($i = 1; $i <= Carbon::now()->month; $i++)
+        {
+            $productSale = ProductSale::where('product_id', '=', $id)->whereMonth('created_at', '=', $i)->sum('quantity');
+            dump($productSale);
+        }
+        
+        //dd(Carbon::now()->month(1));
+        
     }
 }

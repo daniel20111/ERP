@@ -10,6 +10,7 @@ use App\Http\Requests\Entry\StoreEntryRequest;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductCollection;
 use App\Http\Resources\EntryOrderProduct\EntryOrderProductResource;
 use App\Models\Entry;
+use App\Models\EntryOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -117,10 +118,37 @@ class EntryOrderProductController extends Controller
             $entryOrderProduct->save();
 
             DB::commit();
+
+            EntryOrderProductController::verifyAllEntryOrders($entryOrderProduct->entry_order_id);
+
             return response()->json(['message' => ''], 200);
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json(['error' => $th], 500);
+        }
+    }
+
+    public function verifyAllEntryOrders($entryOrderId)
+    {
+        DB::beginTransaction();
+        try {
+            $entryOrder = EntryOrder::with('entry_order_products')->findOrFail($entryOrderId);
+
+            foreach ($entryOrder->entry_order_products as $entryOrderProduct)
+            {
+                if ($entryOrderProduct->verified == false)
+                {
+                    exit;
+                }
+            }
+            $entryOrder->verified_entry_order = true;
+            //$entryOrder->save();
+            $entryOrder->save();
+        DB::commit();
+        //return response()->json(['message' => ''], 200);
+        } catch (\Throwable $th) {
+        DB::rollback();
+        return response()->json(['error' => $th], 500);
         }
     }
 }

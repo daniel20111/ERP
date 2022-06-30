@@ -18,6 +18,10 @@ class Sale extends Model
         'quotation_id',
     ];
 
+    protected $casts = [
+        'total_sale' => 'float',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

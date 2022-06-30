@@ -18,6 +18,11 @@ class ProductSale extends Model
         'total_price',
     ];
 
+    protected $casts = [
+        'unit_price' => 'float',
+        'total_price' => 'float',
+    ];
+
     public function sale()
     {
         return $this->belongsTo(Sale::class);

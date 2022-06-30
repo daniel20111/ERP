@@ -18,7 +18,7 @@ use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\TransferOrderController;
 use App\Http\Controllers\Api\QuotationController;
-
+use App\Http\Controllers\Api\ProductSaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +58,7 @@ Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify'])
 Route::apiResource('entryorders', EntryOrderController::class);
 
 Route::post('/product_entries/verify/{id}', [EntryOrderProductController::class, 'verifyEntryOrder']);
+Route::get('/product_entries/verifyAllEntryOrders/{id}', [EntryOrderProductController::class, 'verifyAllEntryOrders']);
 Route::apiResource('product_entries', EntryOrderProductController::class);
 
 Route::post('/transfers/validate/{id}', [TransferController::class, 'generate_transfer_order']);
@@ -71,6 +72,11 @@ Route::get('transfer_orders/try/{id}', [TransferOrderController::class, 'try']);
 //Route::apiResource('transfer_orders', TransferOrderController::class);
 //Route::post('/transfer_orders/register_transfer/{id}', [TransferOrderController::class, 'register_transfer']);
 
+Route::get('/dateSales/{id}', [SaleController::class, 'dateSales']);
+Route::get('/salesMonth/{id}', [SaleController::class, 'salesMonth']);
 Route::apiResource('sales', SaleController::class);
 
 Route::apiResource('quotations', QuotationController::class);
+
+Route::get('productSales/stimateTime/{id}', [ProductSaleController::class, 'stimateTime']);
+Route::apiResource('productSales', ProductSaleController::class);
