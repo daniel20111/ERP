@@ -55,8 +55,28 @@ class SaleController extends Controller
         ]);
     }
 
-    public function salesMonth($id)
+    public function salesMonth($id, Request $request)
     {
+
+        if ($request->has('from'))
+        {
+            if ($request->filled('from'))
+            {
+                if ($request->from = 'all')
+                {
+                    $currentMonth = Carbon::now()->month;
+                    $data = [];
+                    for ($i=1; $i <= $currentMonth ; $i++) 
+                    { 
+                        $monthSales = Sale::whereMonth('date_sale', '=', $i)->sum('total_sale');
+                        //$data[$i - 1] = ['month' => Carbon::now()->subMonth($currentMonth - $i)->monthName, 'sales' => $monthSales];
+                        $data[$i - 1] = ['month' => Carbon::now()->subMonth($currentMonth - $i)->month, 'sales' => $monthSales];
+                        //dump([$monthSales, Carbon::now()->subMonth($currentMonth - $i)->monthName]);
+                    }
+                    return response()->json($data);
+                }
+            }
+        }
         $currentMonth = Carbon::now()->month;
         //$period = now()->subMonths(12)->monthsUntil(now());
         // $period = now()->addMonth(12)->monthsUntil(now());

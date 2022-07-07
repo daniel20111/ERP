@@ -79,4 +79,6 @@ Route::apiResource('sales', SaleController::class);
 Route::apiResource('quotations', QuotationController::class);
 
 Route::get('productSales/stimateTime/{id}', [ProductSaleController::class, 'stimateTime']);
+Route::get('productSales/totalQuotation/', [ProductSaleController::class, 'totalQuotation']);
+Route::get('productSales/soldProducts/', [ProductSaleController::class, 'soldProducts']);
 Route::apiResource('productSales', ProductSaleController::class);
