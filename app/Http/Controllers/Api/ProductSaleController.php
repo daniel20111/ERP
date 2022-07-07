@@ -224,4 +224,50 @@ class ProductSaleController extends Controller
         }
         return response()->json($data);
     }
+
+    public function bestSeller()
+    {
+        $data = [];
+        $products = Product::get('id');
+        $i = 0;
+        foreach ($products as $product)
+        {
+            $productName = Product::findOrFail($product, ['model_product']);
+            $productModel = $productName[0]->model_product;
+
+            $soldQuantity = ProductSale::where('product_id', '=', $product['id'])->sum('quantity');
+
+            $totalIncome = ProductSale::where('product_id', '=', $product['id'])->sum('total_price');
+
+            $data[$i] = ['productModel' => $productModel, 'soldQuantity' => $soldQuantity, 'totalIncome' => $totalIncome];
+            
+            $i = $i +1;
+            //dump (response()->json(['productModel' => $productModel, 'soldQuantity' => $soldQuantity]));
+        }
+
+        return max($data);
+    }
+
+    public function leastSeller()
+    {
+        $data = [];
+        $products = Product::get('id');
+        $i = 0;
+        foreach ($products as $product)
+        {
+            $productName = Product::findOrFail($product, ['model_product']);
+            $productModel = $productName[0]->model_product;
+
+            $soldQuantity = ProductSale::where('product_id', '=', $product['id'])->sum('quantity');
+
+            $totalIncome = ProductSale::where('product_id', '=', $product['id'])->sum('total_price');
+
+            $data[$i] = ['productModel' => $productModel, 'soldQuantity' => $soldQuantity, 'totalIncome' => $totalIncome];
+            
+            $i = $i +1;
+            //dump (response()->json(['productModel' => $productModel, 'soldQuantity' => $soldQuantity]));
+        }
+
+        return min($data);
+    }
 }

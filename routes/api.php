@@ -81,4 +81,6 @@ Route::apiResource('quotations', QuotationController::class);
 Route::get('productSales/stimateTime/{id}', [ProductSaleController::class, 'stimateTime']);
 Route::get('productSales/totalQuotation/', [ProductSaleController::class, 'totalQuotation']);
 Route::get('productSales/soldProducts/', [ProductSaleController::class, 'soldProducts']);
+Route::get('productSales/bestSeller/', [ProductSaleController::class, 'bestSeller']);
+Route::get('productSales/leastSeller/', [ProductSaleController::class, 'leastSeller']);
 Route::apiResource('productSales', ProductSaleController::class);
