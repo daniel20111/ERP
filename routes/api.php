@@ -52,6 +52,8 @@ Route::get('/productSearch', [ProductController::class, 'search']);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
 
+Route::get('entries/warehouseProduct/{id}', [EntryController::class, 'warehouseProduct']);
+Route::get('entries/branchProduct/{id}', [EntryController::class, 'branchProduct']);
 Route::apiResource('entries', EntryController::class);
 
 Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);

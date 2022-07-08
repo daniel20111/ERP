@@ -41,6 +41,9 @@ class ProductResource extends JsonResource
             'weight_box_product' => $this->when($this->weight_box_product != null, $this->weight_box_product),
             'weight_pallet_product' => $this->when($this->weight_pallet_product != null, $this->weight_pallet_product),
 
+            'remain_units' => $this->when($this->remain_units != null, $this->remain_units),
+            'reorder_point' => $this->when($this->reorder_point != null, $this->reorder_point),
+
             // 'model_product' => $this->when($this->model_product != null, $this->model_product),
             // 'description_product' => $this->description_product,
             // 'url_image_product' => $this->url_image_product,

@@ -29,13 +29,43 @@ class Product extends Model
         'area_pallet_product',
         'weight_box_product',
         'weight_pallet_product',
+
+        'remain_units',
+        'reorder_point',
     ];
+
+    //protected $attributes = ['remain_units'];
+
+    protected $appends = ['remain_units', 'reorder_point'];
+
+
+    public function getRemainUnitsAttribute()
+    {
+        return ;
+    }
+
+    public function setRemainUnitsAttribute($value)
+    {
+        return $this->remain_units = $value;
+    }
+
+    public function getReorderPointAttribute()
+    {
+        return 30;
+    }
+
+    public function setReorderAttribute($value)
+    {
+        return $this->reorder_point = $value;
+    }
 
     protected $casts = [
         'area_box_product' => 'float',
         'area_pallet_product' => 'float',
         'weight_box_product' => 'float',
         'weight_pallet_product' => 'float',
+        'remain_units' => 'int',
+        'reorder_point' => 'int',
     ];
 
     public function entries()
