@@ -26,7 +26,7 @@ class EmployeeController extends Controller
             }
             return [];
         }
-        return new EmployeeCollection(Employee::with(['user', 'user.role', 'branch'])->paginate(5));
+        return new EmployeeCollection(Employee::with(['user', 'user.role', 'branch'])->get());
     }
 
     /**

@@ -72,7 +72,8 @@ class UserController extends Controller
             }
             if ($request->with == 'all')
             {
-                return new UserResource(User::with('role.modules', 'employee')->findOrFail($id));
+                return new UserResource(User::with('role.modules', 'employee', 'employee.branch')->findOrFail($id));
+                //return User::with('role.modules', 'employee', 'employee.branch')->findOrFail($id);
             }
             
         }
