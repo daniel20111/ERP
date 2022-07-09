@@ -8,6 +8,7 @@ use App\Http\Requests\Quotation\UpdateQuotationRequest;
 use App\Http\Resources\Quotation\QuotationCollection;
 use App\Http\Resources\Quotation\QuotationResource;
 use App\Models\Quotation;
+use App\Models\Sale;
 use Carbon\Carbon;
 
 class QuotationController extends Controller
@@ -91,5 +92,19 @@ class QuotationController extends Controller
     public function destroy(Quotation $quotation)
     {
         //
+    }
+
+    public function quotationData()
+    {
+        $totalQuotations = Quotation::count();
+        $totalSales = Sale::count();
+        $salesWithQuotations = Sale::whereNotNull('quotation_id')->count();
+        $ratioQuotationsSales = ($salesWithQuotations / $totalSales) * 100;
+        return response()->json([
+            'totalQuotations' => $totalQuotations, 
+            'totalSales' => $totalSales, 
+            'salesWithQuotations' => $salesWithQuotations, 
+            'ratioQuotationsSales' => $ratioQuotationsSales
+        ]);
     }
 }

@@ -57,6 +57,7 @@ Route::get('entries/branchProduct/{id}', [EntryController::class, 'branchProduct
 Route::apiResource('entries', EntryController::class);
 
 Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);
+Route::get('totalEntryOrders', [EntryOrderController::class, 'totalEntryOrders']);
 Route::apiResource('entryorders', EntryOrderController::class);
 
 Route::post('/product_entries/verify/{id}', [EntryOrderProductController::class, 'verifyEntryOrder']);
@@ -64,6 +65,7 @@ Route::get('/product_entries/verifyAllEntryOrders/{id}', [EntryOrderProductContr
 Route::apiResource('product_entries', EntryOrderProductController::class);
 
 Route::post('/transfers/validate/{id}', [TransferController::class, 'generate_transfer_order']);
+Route::get('/transfers/totalTransfers/', [TransferController::class, 'totalTransfers']);
 Route::apiResource('transfers', TransferController::class);
 
 Route::middleware('auth:sanctum')->apiResource('transfer_orders', TransferOrderController::class);
@@ -78,6 +80,7 @@ Route::get('/dateSales/{id}', [SaleController::class, 'dateSales']);
 Route::get('/salesMonth/{id}', [SaleController::class, 'salesMonth']);
 Route::apiResource('sales', SaleController::class);
 
+Route::get('/quotations/quotationData/', [QuotationController::class, 'quotationData']);
 Route::apiResource('quotations', QuotationController::class);
 
 Route::get('productSales/stimateTime/{id}', [ProductSaleController::class, 'stimateTime']);

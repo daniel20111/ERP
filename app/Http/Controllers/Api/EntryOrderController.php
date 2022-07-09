@@ -9,7 +9,9 @@ use App\Http\Resources\EntryOrder\EntryOrderResource;
 use App\Http\Resources\EntryOrder\EntryOrderCollection;
 use App\Models\EntryOrder;
 use App\Models\EntryOrderProduct;
+use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -120,5 +122,20 @@ class EntryOrderController extends Controller
             DB::rollback();
             return response()->json(['error' => $th], 500);
         }
+    }
+
+    public function totalEntryOrders()
+    {
+        $totalEntryOrders = EntryOrder::count();
+        $verifiedEntryOrders = EntryOrder::where('verified_entry_order', '=', true)->count();
+        $errorEntryOrders = EntryOrder::where('error_entry_order', '=', true)->count();
+        $todayEntryOrders = EntryOrder::whereDate('created_at', '=', Carbon::now()->toDateString())->count();
+
+        return response()->json([
+            'totalEntryOrders' => $totalEntryOrders, 
+            'verifiedEntryOrders' => $verifiedEntryOrders,
+            'errorEntryOrders' => $errorEntryOrders,
+            'todayEntryOrders' => $todayEntryOrders
+        ]);
     }
 }

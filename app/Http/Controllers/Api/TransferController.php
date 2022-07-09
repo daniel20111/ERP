@@ -191,4 +191,17 @@ class TransferController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function totalTransfers()
+    {
+        $totalTransfers = Transfer::count();
+        $verifiedTransfers = Transfer::where('verified', '=', true)->count();
+        $pendingTransfers = Transfer::where('verified', '=', false)->count();
+
+        return response()->json([
+            'totalTransfers' => $totalTransfers, 
+            'verifiedTransfers' => $verifiedTransfers,
+            'pendingTransfers' => $pendingTransfers,
+        ]);
+    }
 }
