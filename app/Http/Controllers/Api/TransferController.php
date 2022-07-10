@@ -10,6 +10,7 @@ use App\Http\Resources\Transfer\TransferCollection;
 use App\Http\Resources\Transfer\TransferResource;
 use App\Http\Resources\User\UserCollection;
 use App\Models\Egress;
+use App\Models\Employee;
 use App\Models\ProductTransfer;
 use App\Models\TransferOrder;
 use App\Models\Entry;
@@ -27,6 +28,9 @@ class TransferController extends Controller
      */
     public function index(Request $request)
     {
+        $employee = Employee::findOrFail($request->user()->employee_id, 'branch_id');
+        $branchId = $employee->branch_id;
+
         if ($request->has('branch'))
         {
             if ($request->filled('branch'))
@@ -35,7 +39,18 @@ class TransferController extends Controller
                 return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->where('branch_id', '=', $request->branch)->orderByDesc('created_at')->get());
             }
         }
-        return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->orderByDesc('created_at')->get());
+
+        if ($request->user()->role_id == 1 || $request->user()->role_id == 4)
+        {
+            return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->orderByDesc('created_at')->get());
+        }
+
+        if ($request->user()->role_id == 5)
+        {
+            return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->where('branch_id', '=', $branchId)->orderByDesc('created_at')->get());
+        }
+
+        //return new TransferCollection(Transfer::with('user.employee', 'user.role', 'branch')->orderByDesc('created_at')->get());
     }
 
     /**

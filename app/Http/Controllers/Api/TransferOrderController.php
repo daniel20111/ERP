@@ -8,7 +8,7 @@ use App\Models\TransferOrder;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TransferOrder\TransferOrderCollection;
 use App\Http\Resources\TransferOrder\TransferOrderResource;
-
+use App\Models\Employee;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -25,9 +25,28 @@ class TransferOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new TransferOrderCollection(TransferOrder::with('transfer', 'transfer.branch', 'transfer.user', 'transfer.user.employee', 'transfer.user.role')->get());
+        $employee = Employee::findOrFail($request->user()->employee_id, 'branch_id');
+        $branchId = $employee->branch_id;
+
+        if ($request->user()->role_id == 1 || $request->user()->role_id == 4)
+        {
+            return new TransferOrderCollection(TransferOrder::with('transfer', 'transfer.branch', 'transfer.user', 'transfer.user.employee', 'transfer.user.role')->get()->sortByDesc('created_at'));
+        }
+        if ($request->user()->role_id == 5)
+        {
+            return new TransferOrderCollection(
+                TransferOrder::with(
+                    'transfer', 'transfer.branch', 'transfer.user', 'transfer.user.employee', 'transfer.user.role'
+                    )->whereHas(
+                        'transfer', function($q) use($branchId) {
+                            $q->where('branch_id', '=', $branchId);
+                        }
+                        )->get()->sortByDesc('created_at')
+                    );
+        }
+        //return new TransferOrderCollection(TransferOrder::with('transfer', 'transfer.branch', 'transfer.user', 'transfer.user.employee', 'transfer.user.role')->get());
     }
 
     /**

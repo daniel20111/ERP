@@ -66,7 +66,8 @@ Route::apiResource('product_entries', EntryOrderProductController::class);
 
 Route::post('/transfers/validate/{id}', [TransferController::class, 'generate_transfer_order']);
 Route::get('/transfers/totalTransfers/', [TransferController::class, 'totalTransfers']);
-Route::apiResource('transfers', TransferController::class);
+Route::middleware('auth:sanctum')->apiResource('transfers', TransferController::class);
+//Route::apiResource('transfers', TransferController::class);
 
 Route::middleware('auth:sanctum')->apiResource('transfer_orders', TransferOrderController::class);
 Route::middleware('auth:sanctum')->post('/transfer_orders/register_transfer/{id}', [TransferOrderController::class, 'register_transfer']);
