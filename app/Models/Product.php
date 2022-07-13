@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,21 +33,40 @@ class Product extends Model
 
         'remain_units',
         'reorder_point',
+        'price',
     ];
 
     //protected $attributes = ['remain_units'];
 
-    protected $appends = ['remain_units', 'reorder_point'];
+    protected $appends = ['remain_units', 'reorder_point', 'price'];
 
 
-    public function getRemainUnitsAttribute()
+    public function getRemainUnitsAttribute($id = 0)
     {
+        if ($id == 0) 
+        {
+            return ;
+        }
+
+        
+
         return ;
+    }
+
+    public function setPriceAttribute($price)
+    {
+        return $this->price = $price;
+    }
+
+    public function getPriceAttribute()
+    {
+        $price = Price::where('product_id', '=', $this->id)->get()->sortByDesc('created_at')->first();
+        return floatval($price->price);
     }
 
     public function setRemainUnitsAttribute($value)
     {
-        return $this->remain_units = $value;
+        return floatval($this->remain_units = $value);
     }
 
     public function getReorderPointAttribute()
@@ -66,6 +86,7 @@ class Product extends Model
         'weight_pallet_product' => 'float',
         'remain_units' => 'int',
         'reorder_point' => 'int',
+        'price' => 'float',
     ];
 
     public function entries()
