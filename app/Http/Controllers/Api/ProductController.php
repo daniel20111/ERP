@@ -25,7 +25,7 @@ class ProductController extends Controller
         {
             if ($request->filled('search'))
             {
-                return new ProductCollection(Product::where('model_product', 'ILIKE', '%'.$request->search.'%')->get());
+                return new ProductCollection(Product::where('model_product', 'ILIKE', '%'.$request->search.'%')->get(['id', 'model_product', 'format_product']));
             }
             return [];
         }
