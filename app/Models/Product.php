@@ -38,8 +38,18 @@ class Product extends Model
 
     //protected $attributes = ['remain_units'];
 
-    protected $appends = ['remain_units', 'reorder_point', 'price'];
+    protected $appends = ['remain_units', 'reorder_point', 'price', 'sold_units'];
 
+    public function getSoldUnitsAttribute()
+    {
+        $soldUnits = ProductSale::where('product_id', '=', $this->id)->sum('quantity');
+        return $soldUnits;
+    }
+
+    public function setSoldUnitsAttribute($soldUnits)
+    {
+        return $this->sold_units = $soldUnits;
+    }
 
     public function getRemainUnitsAttribute($id = 0)
     {
@@ -53,6 +63,11 @@ class Product extends Model
         return ;
     }
 
+    public function setRemainUnitsAttribute($value)
+    {
+        return floatval($this->remain_units = $value);
+    }
+
     public function setPriceAttribute($price)
     {
         return $this->price = $price;
@@ -62,11 +77,6 @@ class Product extends Model
     {
         $price = Price::where('product_id', '=', $this->id)->get()->sortByDesc('created_at')->first();
         return floatval($price->price);
-    }
-
-    public function setRemainUnitsAttribute($value)
-    {
-        return floatval($this->remain_units = $value);
     }
 
     public function getReorderPointAttribute()

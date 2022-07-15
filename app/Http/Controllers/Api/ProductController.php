@@ -39,6 +39,9 @@ class ProductController extends Controller
                 if ($request->only == 'basicInfo') {
                     return new ProductCollection(Product::get(['id', 'model_product', 'format_product', 'url_image_product']));
                 }
+                if ($request->only == 'mostSale') {
+                    return new ProductCollection(Product::get(['id', 'model_product', 'format_product', 'url_image_product'])->sortByDesc('sold_units')->take(5));
+                }
             }
             return [];
         }
