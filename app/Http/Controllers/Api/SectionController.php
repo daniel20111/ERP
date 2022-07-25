@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Section\StoreSectionRequest;
+use App\Http\Resources\Section\SectionCollection;
+use App\Http\Resources\Section\SectionResource;
+use App\Models\Section;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +18,15 @@ class SectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('warehouse'))
+        {
+            if ($request->filled('warehouse'))
+            {
+                return new SectionCollection(Section::where('warehouse_id', '=', $request->warehouse)->get());
+            }
+        }
     }
 
     /**
@@ -56,7 +65,7 @@ class SectionController extends Controller
      */
     public function show($id)
     {
-        //
+        return new SectionResource(Section::findOrFail($id));
     }
 
     /**

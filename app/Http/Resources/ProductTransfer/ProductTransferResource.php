@@ -20,6 +20,7 @@ class ProductTransferResource extends JsonResource
             'product_id' => $this->when($this->product_id != null, $this->product_id),
             'transfer_id' => $this->when($this->transfer_id != null, $this->transfer_id),
             'quantity' => $this->when($this->quantity != null, $this->quantity),
+            'allocated' => $this->allocated,
             'product' => new ProductResource($this->whenLoaded('product')),
         ];
         //return parent::toArray($request);

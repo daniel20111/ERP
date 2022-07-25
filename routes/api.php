@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AccessController;
+use App\Http\Controllers\Api\BInventoryController;
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\ModuleController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\TransferOrderController;
 use App\Http\Controllers\Api\QuotationController;
 use App\Http\Controllers\Api\ProductSaleController;
+use App\Http\Controllers\Api\ProductTransferController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +46,15 @@ Route::apiResource('users', UserController::class);
 
 Route::apiResource('employees', EmployeeController::class);
 Route::apiResource('branches', BranchController::class);
-Route::apiResource('warehouses', WarehouseController::class);
+
+Route::middleware('auth:sanctum')->apiResource('warehouses', WarehouseController::class);
+//Route::apiResource('warehouses', WarehouseController::class);
+
 Route::apiResource('sections', SectionController::class);
 
-//Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
+Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
 Route::get('/productSearch', [ProductController::class, 'search']);
-Route::apiResource('products', ProductController::class);
+//Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
 
 Route::get('entries/warehouseProduct/{id}', [EntryController::class, 'warehouseProduct']);
@@ -81,8 +86,11 @@ Route::get('/dateSales/{id}', [SaleController::class, 'dateSales']);
 Route::get('/salesMonth/{id}', [SaleController::class, 'salesMonth']);
 Route::apiResource('sales', SaleController::class);
 
-Route::get('/quotations/quotationData/', [QuotationController::class, 'quotationData']);
-Route::apiResource('quotations', QuotationController::class);
+Route::middleware('auth:sanctum')->apiResource('quotations', QuotationController::class);
+Route::middleware('auth:sanctum')->get('/quotations/quotationData/all/', [QuotationController::class, 'quotationData']);
+Route::middleware('auth:sanctum')->get('/quotations/quotationData/exportPDF/', [QuotationController::class, 'exportPDF']);
+//Route::get('/quotations/quotationData/', [QuotationController::class, 'quotationData']);
+//Route::apiResource('quotations', QuotationController::class);
 
 Route::get('productSales/stimateTime/{id}', [ProductSaleController::class, 'stimateTime']);
 Route::get('productSales/totalQuotation/', [ProductSaleController::class, 'totalQuotation']);
@@ -90,3 +98,14 @@ Route::get('productSales/soldProducts/', [ProductSaleController::class, 'soldPro
 Route::get('productSales/bestSeller/', [ProductSaleController::class, 'bestSeller']);
 Route::get('productSales/leastSeller/', [ProductSaleController::class, 'leastSeller']);
 Route::apiResource('productSales', ProductSaleController::class);
+
+Route::middleware('auth:sanctum')->apiResource('productTransfer', ProductTransferController::class);
+
+Route::middleware('auth:sanctum')->apiResource('bInventory', BInventoryController::class);
+//example
+Route::get('example/{id}', [QuotationController::class, 'exportPDF']);
+
+//pdf views
+Route::get('/invoice', function () {
+    return view('welcome');
+});

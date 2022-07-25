@@ -7,9 +7,14 @@ use App\Http\Requests\Quotation\StoreQuotationRequest;
 use App\Http\Requests\Quotation\UpdateQuotationRequest;
 use App\Http\Resources\Quotation\QuotationCollection;
 use App\Http\Resources\Quotation\QuotationResource;
+use App\Models\ProductQuotation;
 use App\Models\Quotation;
 use App\Models\Sale;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Support\Facades\DB;
 
 class QuotationController extends Controller
 {
@@ -46,7 +51,32 @@ class QuotationController extends Controller
      */
     public function store(StoreQuotationRequest $request)
     {
-        //
+        // $quotation = new Quotation;
+        // $quotation->name_quotation = $request->name_quotation;
+        // $quotation->price_quotation = $request->price_quotation;
+        // $quotation->date_quotation = $request->date_quotation;
+        // $quotation->expiration_date = $request->expiration_date;
+        // $quotation->user_id = $request->user_id;
+        // $quotation->branch_id = $request->branch_id;
+        $validatedRequest = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            $quotation = Quotation::create($validatedRequest);
+
+            foreach ($validatedRequest['product_quotations'] as $productQuotation)
+            {
+                $createdProductQuotation = new ProductQuotation($productQuotation);
+                $createdProductQuotation->quotation()->associate($quotation);
+                $createdProductQuotation->save();
+            }
+
+            DB::commit();
+            return response()->json(['id' => $quotation->id], 200);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
     }
 
     /**
@@ -101,10 +131,19 @@ class QuotationController extends Controller
         $salesWithQuotations = Sale::whereNotNull('quotation_id')->count();
         $ratioQuotationsSales = ($salesWithQuotations / $totalSales) * 100;
         return response()->json([
-            'totalQuotations' => $totalQuotations, 
-            'totalSales' => $totalSales, 
-            'salesWithQuotations' => $salesWithQuotations, 
+            'totalQuotations' => $totalQuotations,
+            'totalSales' => $totalSales,
+            'salesWithQuotations' => $salesWithQuotations,
             'ratioQuotationsSales' => $ratioQuotationsSales
         ]);
+    }
+
+    public function exportPDF($id)
+    {
+        $quotation = Quotation::with('productQuotation', 'productQuotation.product', 'branch')->findOrFail($id);
+
+        $pdf = PDF::loadView('quotation', ['data' => $quotation]);
+
+        return $pdf->download('quotation.pdf');
     }
 }

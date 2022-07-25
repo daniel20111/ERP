@@ -45,6 +45,7 @@ class ProductResource extends JsonResource
             'reorder_point' => $this->when($this->reorder_point != null, $this->reorder_point),
             'price' => $this->when($this->price != null, $this->price),
             'sold_units' => $this->when($this->sold_units != null, $this->sold_units),
+            'branch_remain_units' => $this->when($this->branch_remain_units != null, $this->branch_remain_units),
 
             // 'model_product' => $this->when($this->model_product != null, $this->model_product),
             // 'description_product' => $this->description_product,

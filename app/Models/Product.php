@@ -6,6 +6,7 @@ use GuzzleHttp\Handler\Proxy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
@@ -38,7 +39,7 @@ class Product extends Model
 
     //protected $attributes = ['remain_units'];
 
-    protected $appends = ['remain_units', 'reorder_point', 'price', 'sold_units'];
+    protected $appends = ['remain_units', 'reorder_point', 'price', 'sold_units', 'branch_remain_units'];
 
     public function getSoldUnitsAttribute()
     {
@@ -51,16 +52,29 @@ class Product extends Model
         return $this->sold_units = $soldUnits;
     }
 
-    public function getRemainUnitsAttribute($id = 0)
+    public function getBranchRemainUnitsAttribute()
     {
-        if ($id == 0) 
-        {
-            return ;
-        }
+        $branchId = Auth::user()->employee->branch_id;
+        $bInventory = BInventory::where('product_id', '=', $this->id)
+                                ->whereHas('section.warehouse', 
+                                    function($q) use ($branchId) 
+                                    {
+                                        $q->where('branch_id', '=', $branchId);
+                                    }
+                                )->sum('remain_units');
+        return $bInventory;
+    }
 
-        
+    public function setBranchRemainUnitsAttribute($value)
+    {
+        return integerValue($this->branch_remain_units = $value);
+    }
 
-        return ;
+
+    public function getRemainUnitsAttribute()
+    {
+        $remainQuantity = Entry::where('product_id', '=', $this->id)->sum('remain_entry');
+        return $remainQuantity;
     }
 
     public function setRemainUnitsAttribute($value)
@@ -97,6 +111,7 @@ class Product extends Model
         'remain_units' => 'int',
         'reorder_point' => 'int',
         'price' => 'float',
+        
     ];
 
     public function entries()

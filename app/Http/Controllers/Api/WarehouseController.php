@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Warehouse\StoreWarehouseRequest;
+use App\Http\Resources\Warehouse\WarehouseCollection;
+use App\Http\Resources\Warehouse\WarehouseResource;
 use App\Models\Branch;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
@@ -16,9 +18,19 @@ class WarehouseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($request->has('type')) 
+        {
+            if ($request->filled('type'))
+            {
+                if ($request->type == 'branch')
+                {
+                    $branchId = $request->user()->employee->branch_id;
+                    return new WarehouseCollection(Warehouse::where('branch_id', '=', $branchId)->get());
+                }
+            }
+        }
     }
 
     /**
@@ -61,8 +73,18 @@ class WarehouseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        if ($request->has('only'))
+        {
+            if ($request->filled('only'))
+            {
+                if ($request->only = 'name')
+                {
+                    return new WarehouseResource(Warehouse::findOrFail($id));
+                }
+            }
+        }
         return Warehouse::with('sections')->findOrFail($id);
     }
 

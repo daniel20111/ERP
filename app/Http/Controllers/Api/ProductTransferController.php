@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductTransfer\StoreProductTransferRequest;
 use App\Http\Requests\ProductTransfer\UpdateProductTransferRequest;
-
+use App\Http\Resources\ProductTransfer\ProductTransferResource;
 use App\Models\ProductTransfer;
 
 class ProductTransferController extends Controller
@@ -46,9 +47,10 @@ class ProductTransferController extends Controller
      * @param  \App\Models\ProductTransfer  $productTransfer
      * @return \Illuminate\Http\Response
      */
-    public function show(ProductTransfer $productTransfer)
+    public function show($id)
     {
-        //
+        $productTransfer = new ProductTransferResource(ProductTransfer::with('product')->findOrFail($id));
+        return $productTransfer;
     }
 
     /**

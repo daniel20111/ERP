@@ -19,6 +19,7 @@ class CreateProductTransfersTable extends Migration
             $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('transfer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity');
+            $table->boolean('allocated');
 
             $table->timestamps();
             $table->softDeletes();

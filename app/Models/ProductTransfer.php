@@ -15,6 +15,10 @@ class ProductTransfer extends Model
         'quantity',
     ];
 
+    protected $attributes = [
+        'allocated' => false,
+    ];
+
     public function transfer()
     {
         return $this->belongsTo(Transfer::class);

@@ -6,10 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
+use App\Models\BInventory;
+use App\Models\Entry;
 use App\Models\Price;
 use App\Models\Product;
 use App\Models\Sale;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -21,6 +25,7 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        //return $branchId = Auth::user()->employee->branch_id;
         if ($request->has(['search'])) 
         {
             if ($request->filled('search'))
