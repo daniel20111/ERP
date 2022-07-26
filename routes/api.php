@@ -15,12 +15,14 @@ use App\Http\Controllers\Api\WarehouseController;
 use App\Http\Controllers\Api\EntryController;
 use App\Http\Controllers\Api\EntryOrderController;
 use App\Http\Controllers\Api\EntryOrderProductController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\SaleController;
 use App\Http\Controllers\Api\TransferController;
 use App\Http\Controllers\Api\TransferOrderController;
 use App\Http\Controllers\Api\QuotationController;
 use App\Http\Controllers\Api\ProductSaleController;
 use App\Http\Controllers\Api\ProductTransferController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +105,9 @@ Route::apiResource('productSales', ProductSaleController::class);
 Route::middleware('auth:sanctum')->apiResource('productTransfer', ProductTransferController::class);
 
 Route::middleware('auth:sanctum')->apiResource('bInventory', BInventoryController::class);
+
+Route::apiResource('invoices', InvoiceController::class);
+
 //example
 Route::get('example/{id}', [QuotationController::class, 'exportPDF']);
 
