@@ -19,6 +19,8 @@ class SaleResource extends JsonResource
         //return parent::toArray($request);
         return [
             'id' => $this->when($this->id != null, $this->id),
+            'name_sale' => $this->when($this->name_sale != null, $this->name_sale),
+            'nit_sale' => $this->when($this->nit_sale != null, $this->nit_sale),
             'total_sale' => $this->when($this->total_sale != null, $this->total_sale),
             'date_sale' => $this->when($this->date_sale != null, $this->date_sale),
             'user_id' => $this->when($this->user_id != null, $this->user_id),

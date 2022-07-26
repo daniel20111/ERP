@@ -8,6 +8,7 @@ use App\Models\Sale;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Sale\SaleCollection;
 use App\Http\Resources\Sale\SaleResource;
+use App\Models\ProductSale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,12 +23,9 @@ class SaleController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('branch'))
-        {
-            if($request->filled('branch'))
-            {
-                if ($request->branch == 1)
-                {
+        if ($request->has('branch')) {
+            if ($request->filled('branch')) {
+                if ($request->branch == 1) {
                     return new SaleCollection(Sale::all()->sortByDesc('date_sale'));
                 }
                 return new SaleCollection(Sale::where('branch_id', '=', $request->branch)->get()->sortByDesc('date_sale'));
@@ -58,16 +56,12 @@ class SaleController extends Controller
     public function salesMonth($id, Request $request)
     {
 
-        if ($request->has('from'))
-        {
-            if ($request->filled('from'))
-            {
-                if ($request->from = 'all')
-                {
+        if ($request->has('from')) {
+            if ($request->filled('from')) {
+                if ($request->from = 'all') {
                     $currentMonth = Carbon::now()->month;
                     $data = [];
-                    for ($i=1; $i <= $currentMonth ; $i++) 
-                    { 
+                    for ($i = 1; $i <= $currentMonth; $i++) {
                         $monthSales = Sale::whereMonth('date_sale', '=', $i)->sum('total_sale');
                         //$data[$i - 1] = ['month' => Carbon::now()->subMonth($currentMonth - $i)->monthName, 'sales' => $monthSales];
                         $data[$i - 1] = ['month' => Carbon::now()->subMonth($currentMonth - $i)->month, 'sales' => $monthSales];
@@ -86,8 +80,7 @@ class SaleController extends Controller
         //     dump($date->monthName);
         // }
         $data = [];
-        for ($i=1; $i <= $currentMonth ; $i++) 
-        { 
+        for ($i = 1; $i <= $currentMonth; $i++) {
             $monthSales = Sale::whereMonth('date_sale', '=', $i)->where('branch_id', '=', $id)->sum('total_sale');
             $data[$i - 1] = ['month' => Carbon::now()->subMonth($currentMonth - $i)->monthName, 'sales' => $monthSales];
             //dump([$monthSales, Carbon::now()->subMonth($currentMonth - $i)->monthName]);
@@ -114,7 +107,26 @@ class SaleController extends Controller
      */
     public function store(StoreSaleRequest $request)
     {
-        //
+        $validatedRequest = $request->validated();
+
+        DB::beginTransaction();
+        try {
+            $sale = Sale::create($validatedRequest);
+
+            foreach ($validatedRequest['product_sales'] as $productSale) {
+                $newProductSale = new ProductSale($productSale);
+                $newProductSale->sale()->associate($sale);
+                $newProductSale->save();
+            }
+
+            DB::commit();
+            return response()->json(['message' => ''], 200);
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json(['error' => $th], 500);
+        }
+        
+        return $sale;
     }
 
     /**

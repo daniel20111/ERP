@@ -84,7 +84,8 @@ Route::get('transfer_orders/try/{id}', [TransferOrderController::class, 'try']);
 
 Route::get('/dateSales/{id}', [SaleController::class, 'dateSales']);
 Route::get('/salesMonth/{id}', [SaleController::class, 'salesMonth']);
-Route::apiResource('sales', SaleController::class);
+Route::middleware('auth:sanctum')->apiResource('sales', SaleController::class);
+//Route::apiResource('sales', SaleController::class);
 
 Route::middleware('auth:sanctum')->apiResource('quotations', QuotationController::class);
 Route::middleware('auth:sanctum')->get('/quotations/quotationData/all/', [QuotationController::class, 'quotationData']);
