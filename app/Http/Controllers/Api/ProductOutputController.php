@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Invoice\StoreInvoiceRequest;
-use App\Http\Requests\Invoice\UpdateInvoiceRequest;
-use App\Models\Invoice;
+use App\Http\Requests\ProductOutput\StoreProductOutputRequest;
+use App\Http\Requests\ProductOutput\UpdateProductOutputRequest;
+use App\Models\ProductOutput;
 
-class InvoiceController extends Controller
+class ProductOutputController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,7 @@ class InvoiceController extends Controller
      */
     public function index()
     {
-        $invoice = new Invoice();
-        return $invoice;
+        //
     }
 
     /**
@@ -33,10 +32,10 @@ class InvoiceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreInvoiceRequest  $request
+     * @param  \App\Http\Requests\StoreProductOutputRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreInvoiceRequest $request)
+    public function store(StoreProductOutputRequest $request)
     {
         //
     }
@@ -44,10 +43,10 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\ProductOutput  $productOutput
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoice)
+    public function show(ProductOutput $productOutput)
     {
         //
     }
@@ -55,10 +54,10 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\ProductOutput  $productOutput
      * @return \Illuminate\Http\Response
      */
-    public function edit(Invoice $invoice)
+    public function edit(ProductOutput $productOutput)
     {
         //
     }
@@ -66,11 +65,11 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateInvoiceRequest  $request
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Http\Requests\UpdateProductOutputRequest  $request
+     * @param  \App\Models\ProductOutput  $productOutput
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateInvoiceRequest $request, Invoice $invoice)
+    public function update(UpdateProductOutputRequest $request, ProductOutput $productOutput)
     {
         //
     }
@@ -78,10 +77,10 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param  \App\Models\ProductOutput  $productOutput
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(ProductOutput $productOutput)
     {
         //
     }
