@@ -8,11 +8,12 @@ use App\Models\Sale;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Sale\SaleCollection;
 use App\Http\Resources\Sale\SaleResource;
+use App\Models\Invoice;
 use App\Models\ProductSale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use NumberFormatter;
 
 class SaleController extends Controller
 {
@@ -119,6 +120,18 @@ class SaleController extends Controller
                 $newProductSale->save();
             }
 
+            $invoice = new Invoice();
+            $invoice->sale()->associate($sale);
+            $invoice->nit_client = $sale->nit_sale;
+            $invoice->client = $sale->name_sale;
+            $invoice->total = $sale->total_sale;
+            $invoice->fc_base = $sale->total_sale;
+    
+            $literal = new NumberFormatter('es', NumberFormatter::SPELLOUT);
+            $invoice->literal = $literal->format($sale->total_sale);
+
+            $invoice->save();
+
             DB::commit();
             return response()->json(['message' => ''], 200);
         } catch (\Throwable $th) {
@@ -126,7 +139,6 @@ class SaleController extends Controller
             return response()->json(['error' => $th], 500);
         }
         
-        return $sale;
     }
 
     /**

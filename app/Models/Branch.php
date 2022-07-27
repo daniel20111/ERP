@@ -12,7 +12,8 @@ class Branch extends Model
 
     protected $fillable = [
         'name_branch',
-        'address_branch'
+        'address_branch',
+        'type_branch'
     ];
 
     public function warehouses()

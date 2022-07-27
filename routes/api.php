@@ -106,7 +106,8 @@ Route::middleware('auth:sanctum')->apiResource('productTransfer', ProductTransfe
 
 Route::middleware('auth:sanctum')->apiResource('bInventory', BInventoryController::class);
 
-Route::apiResource('invoices', InvoiceController::class);
+Route::middleware('auth:sanctum')->apiResource('invoices', InvoiceController::class);
+//Route::apiResource('invoices', InvoiceController::class);
 
 //example
 Route::get('example/{id}', [QuotationController::class, 'exportPDF']);

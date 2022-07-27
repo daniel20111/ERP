@@ -36,4 +36,9 @@ class Quotation extends Model
     {
         return $this->hasMany(ProductQuotation::class);
     }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
 }
