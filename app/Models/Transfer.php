@@ -23,7 +23,7 @@ class Transfer extends Model
         'priority' => false,
     ];
 
-    public function productTransfers()
+    public function product_transfers()
     {
         return $this->hasMany(ProductTransfer::class);
     }
