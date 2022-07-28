@@ -55,13 +55,19 @@ Route::middleware('auth:sanctum')->apiResource('warehouses', WarehouseController
 Route::apiResource('sections', SectionController::class);
 
 Route::middleware('auth:sanctum')->apiResource('products', ProductController::class);
-Route::get('/productSearch', [ProductController::class, 'search']);
+Route::middleware('auth:sanctum')->get('productSearch', [ProductController::class, 'seach']);
+//Route::get('/productSearch', [ProductController::class, 'search']);
 //Route::apiResource('products', ProductController::class);
 Route::apiResource('employees', EmployeeController::class);
 
-Route::get('entries/warehouseProduct/{id}', [EntryController::class, 'warehouseProduct']);
-Route::get('entries/branchProduct/{id}', [EntryController::class, 'branchProduct']);
-Route::apiResource('entries', EntryController::class);
+//Route::get('entries/warehouseProduct/{id}', [EntryController::class, 'warehouseProduct']);
+//Route::get('entries/branchProduct/{id}', [EntryController::class, 'branchProduct']);
+//Route::apiResource('entries', EntryController::class);
+
+Route::middleware('auth:sanctum')->apiResource('entries', EntryController::class);
+Route::middleware('auth:sanctum')->get('entries/warehouseProduct/{id}', [EntryController::class, 'warehouseProduct']);
+Route::middleware('auth:sanctum')->get('entries/branchProduct/{id}', [EntryController::class, 'branchProduct']);
+
 
 Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);
 Route::get('totalEntryOrders', [EntryOrderController::class, 'totalEntryOrders']);
