@@ -57,24 +57,24 @@ class EntryController extends Controller
 
     public function branchProduct($id)
     {
-        $products = Product::whereHas('entries.section.warehouse', 
-                        function($q) use ($id) {
-                            $q->where('branch_id', '=', $id);
-                        })->get(['id', 'model_product', 'format_product', 'url_image_product']);
+        // $products = Product::whereHas('entries.section.warehouse', 
+        //                 function($q) use ($id) {
+        //                     $q->where('branch_id', '=', $id);
+        //                 })->get(['id', 'model_product', 'format_product', 'url_image_product']);
 
-
+        $products = Product::all();
+        
         $i = 0;
         foreach ($products as $product)
         {
-            $remainUnitsInBranch = Entry::whereHas('section.warehouse', 
-                function ($q) use ($id)
-                {
-                    $q->where('branch_id', '=', $id);
-                }
-            )->where('product_id', '=', $product->id)->sum('remain_entry');
+            // $remainUnitsInBranch = Entry::whereHas('section.warehouse', 
+            //     function ($q) use ($id)
+            //     {
+            //         $q->where('branch_id', '=', $id);
+            //     }
+            // )->where('product_id', '=', $product->id)->sum('remain_entry');
 
-            $products[$i]->remain_units = $remainUnitsInBranch;
-
+            $products[$i]->branch_remain_units = $id;
 
             $i = $i +1;
         }

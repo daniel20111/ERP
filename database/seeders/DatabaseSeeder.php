@@ -31,9 +31,10 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             EntryOrderSeeder::class,
             EntryOrderProductSeeder::class,
-            //QuotationSeeder::class,
-            //SaleSeeder::class,
+            QuotationSeeder::class,
+            SaleSeeder::class,
             TransferSeeder::class,
+            EntrySeeder::class,
         ]);
     }
 }

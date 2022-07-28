@@ -39,7 +39,8 @@ class Product extends Model
         'remain_units',
         'reorder_point',
         'price',
-        'estimate_time'
+        'estimate_time',
+        'branch_remain_units'
     ];
 
     //protected $attributes = ['remain_units'];
@@ -70,9 +71,17 @@ class Product extends Model
         return $bInventory;
     }
 
-    public function setBranchRemainUnitsAttribute($value)
+    public function setBranchRemainUnitsAttribute($branchId)
     {
-        return integerValue($this->branch_remain_units = $value);
+        $bInventory = BInventory::where('product_id', '=', $this->id)
+                                ->whereHas('section.warehouse', 
+                                    function($q) use ($branchId) 
+                                    {
+                                        $q->where('branch_id', '=', $branchId);
+                                    }
+                                )->sum('remain_units');
+
+        return $this->branch_remain_units = $bInventory;
     }
 
 

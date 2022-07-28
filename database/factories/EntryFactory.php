@@ -13,11 +13,14 @@ class EntryFactory extends Factory
      */
     public function definition()
     {
+        $section_id = $this->faker->numberBetween(13, 48);
+        $quantity = $this->faker->numberBetween(600, 1000);
         return [
-            'quantity_entry' => $this->faker->randomNumber(),
-            'supplier_entry' => $this->faker->company(),
-            'note_entry' => $this->faker->paragraph(),
+            'quantity_entry' => $quantity,
+            'remain_entry' => $quantity,
             'product_id' => $this->faker->numberBetween(1, 10),
+            'section_id' => $section_id,
+            'entry_order_products_id' => $this->faker->numberBetween(1, 20),
         ];
     }
 }
