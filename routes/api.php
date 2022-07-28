@@ -65,11 +65,13 @@ Route::apiResource('entries', EntryController::class);
 
 Route::post('/entryorders/verify/{id}', [EntryOrderController::class, 'verify']);
 Route::get('totalEntryOrders', [EntryOrderController::class, 'totalEntryOrders']);
-Route::apiResource('entryorders', EntryOrderController::class);
+//Route::apiResource('entryorders', EntryOrderController::class);
+Route::middleware('auth:sanctum')->apiResource('entryorders', EntryOrderController::class);
 
 Route::post('/product_entries/verify/{id}', [EntryOrderProductController::class, 'verifyEntryOrder']);
 Route::get('/product_entries/verifyAllEntryOrders/{id}', [EntryOrderProductController::class, 'verifyAllEntryOrders']);
-Route::apiResource('product_entries', EntryOrderProductController::class);
+//Route::apiResource('product_entries', EntryOrderProductController::class);
+Route::middleware('auth:sanctum')->apiResource('product_entries', EntryOrderProductController::class);
 
 Route::post('/transfers/validate/{id}', [TransferController::class, 'generate_transfer_order']);
 Route::get('/transfers/totalTransfers/', [TransferController::class, 'totalTransfers']);

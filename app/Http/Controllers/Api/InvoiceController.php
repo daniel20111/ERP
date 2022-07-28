@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\StoreInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
+use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,11 +20,19 @@ class InvoiceController extends Controller
     public function index(Request $request)
     {
         $branchId = $request->user()->employee->branch_id;
+
+
         if ($branchId == 1)
         {
-            
+            return new InvoiceCollection(Invoice::all()->sortByDesc('date'));
         }
-        return $branchId;
+
+        return new InvoiceCollection(Invoice::whereHas('sale', 
+            function($query) use ($branchId) {
+                $query->where('branch_id', '=', $branchId);
+            }
+        )->get()->sortByDesc('date'));;
+        
     }
 
     /**
