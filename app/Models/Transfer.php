@@ -18,6 +18,7 @@ class Transfer extends Model
 
     protected $attributes = [
         'verified' => false,
+        'priority' => false,
     ];
 
     public function product_transfers()

@@ -19,6 +19,7 @@ class CreateTransfersTable extends Migration
             $table->foreignId('branch_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('verified');
+            $table->boolean('priority');
 
             $table->timestamps();
             $table->softDeletes();

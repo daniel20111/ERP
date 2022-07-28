@@ -30,6 +30,7 @@ class RoleSeeder extends Seeder
         $role->modules()->attach(6);
         $role->modules()->attach(7);
         $role->modules()->attach(8);
+        $role->modules()->attach(9);
 
         $role = Role::create([
             'name_role' => 'Administrador - Casa Matriz',
@@ -48,7 +49,7 @@ class RoleSeeder extends Seeder
             'name_role' => 'Supervisor - Sucursal',
             'description_role' => 'Acceso a Dashboard, Almacenes, Ventas, Facturacion',
         ]);
-        $role->modules()->attach(1);
+        $role->modules()->attach(9);
         //$role->modules()->attach(2);
         //$role->modules()->attach(3);
         //$role->modules()->attach(4);
@@ -61,7 +62,7 @@ class RoleSeeder extends Seeder
             'name_role' => 'Encargado de Inventarios - Casa Matriz',
             'description_role' => 'Acceso a Dashboard, Inventarios',
         ]);
-        $role->modules()->attach(1);
+        $role->modules()->attach(9);
         //$role->modules()->attach(2);
         //$role->modules()->attach(3);
         $role->modules()->attach(4);
@@ -74,7 +75,7 @@ class RoleSeeder extends Seeder
             'name_role' => 'Encargado de Inventarios - Sucursal',
             'description_role' => 'Acceso a Dashboard, Inventarios',
         ]);
-        $role->modules()->attach(1);
+        $role->modules()->attach(9);
         //$role->modules()->attach(2);
         //$role->modules()->attach(3);
         $role->modules()->attach(4);
@@ -87,7 +88,7 @@ class RoleSeeder extends Seeder
             'name_role' => 'Encargado de Ventas',
             'description_role' => 'Dashboard, Productos, Cotizaciones, Facturas',
         ]);
-        $role->modules()->attach(1);
+        $role->modules()->attach(9);
         //$role->modules()->attach(2);
         $role->modules()->attach(3);
         //$role->modules()->attach(4);

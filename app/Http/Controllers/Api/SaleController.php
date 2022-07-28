@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Sale\SaleCollection;
 use App\Http\Resources\Sale\SaleResource;
 use App\Models\Invoice;
+use App\Models\Output;
 use App\Models\ProductSale;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -120,7 +121,20 @@ class SaleController extends Controller
                 $newProductSale->save();
             }
 
-            $invoice = new Invoice();
+            $invoice = new Invoice(
+                [
+                    'company_name' => '',
+                    'type_branch' => '',
+                    'address' => '',
+                    'city' => '',
+                    'nit_company' => '',
+                    'number_invoice' => '',
+                    'auth_code' => '',
+                    'date' => '',
+                    'quote' => ''
+                ]
+            );
+            
             $invoice->sale()->associate($sale);
             $invoice->nit_client = $sale->nit_sale;
             $invoice->client = $sale->name_sale;
@@ -132,11 +146,20 @@ class SaleController extends Controller
 
             $invoice->save();
 
+            $output = new Output();
+            $output->sale()->associate($sale);
+            $output->seller_id = $sale->user_id;
+            $output->branch_id = $sale->branch_id;
+            $output->date_request = Carbon::now();
+
+            $output->save();
+            
+
             DB::commit();
             return response()->json(['message' => ''], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['error' => $th], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
         
     }

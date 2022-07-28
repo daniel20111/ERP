@@ -20,6 +20,7 @@ class ModuleSeeder extends Seeder
             'icon_module' => '0xe1b1',
             'route_module' => 'dashboard',
         ]);
+        
         Module::create([
             'name_module' => 'Usuarios',
             'icon_module' => '0xe61f',
@@ -54,6 +55,12 @@ class ModuleSeeder extends Seeder
             'name_module' => 'Facturas',
             'icon_module' => '0xf311',
             'route_module' => 'invoices',
+        ]);
+
+        Module::create([
+            'name_module' => 'Inicio',
+            'icon_module' => '0xe1b1',
+            'route_module' => 'home',
         ]);
     }
 }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\StoreInvoiceRequest;
 use App\Http\Requests\Invoice\UpdateInvoiceRequest;
 use App\Models\Invoice;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -14,10 +16,14 @@ class InvoiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $invoice = new Invoice();
-        return $invoice;
+        $branchId = $request->user()->employee->branch_id;
+        if ($branchId == 1)
+        {
+            
+        }
+        return $branchId;
     }
 
     /**

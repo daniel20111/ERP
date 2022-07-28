@@ -32,70 +32,80 @@ class Invoice extends Model
         'sale_id',
     ];
 
-    protected $attributes = [];
+    // protected $attributes = [
+    //     'company_name', 
+    //     'type_branch', 
+    //     'address', 
+    //     'city', 
+    //     'nit_company',
+    //     'number_invoice',
+    //     'auth_code',
+    //     'date',
+    //     'quote'
+    // ];
 
-    protected $appends = [
-        'company_name', 
-        'type_branch', 
-        'address', 
-        'city', 
-        'nit_company',
-        'number_invoice',
-        'auth_code',
-        'date',
-        'quote'
-    ];
+    // protected $appends = [
+    //     'company_name', 
+    //     'type_branch', 
+    //     'address', 
+    //     'city', 
+    //     'nit_company',
+    //     'number_invoice',
+    //     'auth_code',
+    //     'date',
+    //     'quote'
+    // ];
 
-    public function getCompanyNameAttribute()
+    public function setCompanyNameAttribute()
     {
-        return 'Nombre de la compañia';
+        return $this->attributes['company_name'] = 'Nombre de la Empresa';
     }
 
-    public function getTypeBranchAttribute()
+    public function setTypeBranchAttribute()
     {
         $branchId = Auth::user()->employee->branch_id;
         $branchType = Branch::findOrFail($branchId, ['type_branch'])['type_branch'];
-        return $branchType;
+        return $this->attributes['type_branch'] = $branchType;
     }
     
-    public function getAddressAttribute()
+    public function setAddressAttribute()
     {
         $branchId = Auth::user()->employee->branch_id;
         $branchAddress = Branch::findOrFail($branchId, ['address_branch'])['address_branch'];
-        return $branchAddress;
+        return $this->attributes['address'] = $branchAddress;
     }
 
-    public function getNitCompanyAttribute()
+    public function setNitCompanyAttribute()
     {
-        return '132408658769';
+        return $this->attributes['nit_company'] = '132408658769';
     }
 
-    public function getNumberInvoiceAttribute()
+    public function setNumberInvoiceAttribute()
     {
-        return $this->id * 1000;
+        return $this->attributes['number_invoice'] = $this->id * 1000;
     }
 
-    public function getAuthCodeAttribute()
+    public function setAuthCodeAttribute()
     {
-        return '29040011007';
+        return $this->attributes['auth_code'] = '29040011007';
     }
 
-    public function getDateAttribute()
+    public function setDateAttribute()
     {
         $date = Carbon::today();
-        return $date;
+        return $this->attributes['date'] = $date;
     }
 
-    public function getQuoteAttribute()
+    public function setQuoteAttribute()
     {
-        return 'quote';
+        return $this->attributes['quote'] = 'quote';
     }
 
-    public function getCityAttribute()
+    public function setCityAttribute()
     {
-        $literal = new NumberFormatter('es', NumberFormatter::SPELLOUT);
-        return $literal->format('1033258.55');
-        //return 'La Paz - Bolivia';
+        //$literal = new NumberFormatter('es', NumberFormatter::SPELLOUT);
+        //return $literal->format('1033258.55');
+        return $this->attributes['city'] = 'La Paz - Bolivia';
     }
 
     public function sale()

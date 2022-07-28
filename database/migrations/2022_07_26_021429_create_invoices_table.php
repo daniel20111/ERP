@@ -21,7 +21,7 @@ class CreateInvoicesTable extends Migration
             $table->string('address');
             $table->string('city');
             $table->string('nit_company');
-            $table->int('number_invoice');
+            $table->integer('number_invoice');
             $table->string('auth_code');
             $table->dateTime('date');
             $table->string('nit_client');
