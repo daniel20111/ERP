@@ -14,7 +14,7 @@ class TransferOrderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            
         ];
     }
 }

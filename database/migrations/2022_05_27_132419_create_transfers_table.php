@@ -21,6 +21,8 @@ class CreateTransfersTable extends Migration
             $table->boolean('verified');
             $table->boolean('priority');
 
+            $table->dateTime('date');
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -273,7 +273,7 @@ class TransferOrderController extends Controller
     }
 
 
-    public function kolmogorov(array $data, $distribution)
+    public static function kolmogorov(array $data, $distribution)
     {
         $empiric_probability_positive = TransferOrderController::empiric_acumulative_probability_positive(count($data));
         $empiric_probability_negative = TransferOrderController::empiric_acumulative_probability_negative(count($data));
@@ -282,22 +282,22 @@ class TransferOrderController extends Controller
             case 'uniform':
                 $uniform_probability = TransferOrderController::uniform_distribution($data);
                 $is_uniform = TransferOrderController::calculated_statistic($empiric_probability_positive, $empiric_probability_negative, $uniform_probability);
-                return $is_uniform ? 'Es uniforme' : 'No es unifome';
+                return $is_uniform;
                 break;
             case 'exponential':
                 $exponential_probability = TransferOrderController::exponential_distribution($data);
                 $is_exponential = TransferOrderController::calculated_statistic($empiric_probability_positive, $empiric_probability_negative, $exponential_probability);
-                return $is_exponential ? 'Es Exponencial' : 'No es exponencial';
+                return $is_exponential;
                 break;
             case 'normal':
                 $normal_probability = TransferOrderController::normal_distribution($data);
                 $is_normal = TransferOrderController::calculated_statistic($empiric_probability_positive, $empiric_probability_negative, $normal_probability);
-                return $is_normal ? 'Es normal' : 'No es Normal';
+                return $is_normal;
                 break;
             case 'standard':
                 $standard_probability = TransferOrderController::standard_normal_distribution($data);
                 $is_standard_normal = TransferOrderController::calculated_statistic($empiric_probability_positive, $empiric_probability_negative, $standard_probability);
-                return $is_standard_normal ? 'Es noraml estandar' : 'No es normal estandar';
+                return $is_standard_normal;
                 break;
             default:
                 break;
@@ -322,9 +322,9 @@ class TransferOrderController extends Controller
         $max_abs_negative = abs((float)($max_negative));
         $min_abs_negative = abs((float)($min_negative));
 
-        dump([$max_abs_positive, $max_abs_negative, $min_abs_positive, $min_abs_negative]);
+        //dump([$max_abs_positive, $max_abs_negative, $min_abs_positive, $min_abs_negative]);
         $d_calculated = max([$max_abs_positive, $max_abs_negative, $min_abs_positive, $min_abs_negative]);
-        dump($d_calculated);
+        //dump($d_calculated);
         $d_kolmogorv = 1.36 / sqrt($empiric_positive->count());
 
 
@@ -397,8 +397,8 @@ class TransferOrderController extends Controller
         $sd = Descriptive::sd($data);
         $mean = Average::mean($data);
 
-        dump(['Media: ', $mean]);
-        dump(['Desviacion Estandar: ', $sd]);
+        //dump(['Media: ', $mean]);
+        //dump(['Desviacion Estandar: ', $sd]);
         $Z = array();
 
         foreach ($data as $datum) {
@@ -417,7 +417,7 @@ class TransferOrderController extends Controller
         return $CDF;
     }
 
-    final function eoq($ch, $c0, $demand, $time, $inventoryCost, array $data, $distribution)
+    public static function eoq($ch, $c0, $demand, $time, $inventoryCost, array $data, $distribution)
     {
         $Q = sqrt(($time * $c0 * $demand) / $ch);
 
@@ -429,16 +429,18 @@ class TransferOrderController extends Controller
                 $mean = Average::mean($data);
                 $normal = new Continuous\Normal($mean, $sd);
 
-                $sample_mean = $demand  / 12;
-                $sample_sd = $sd / sqrt(12);
+                $sample_mean = $normal->mean() / 12;
+                $sample_sd = sqrt($normal->variance()) / sqrt(12);
 
-                $ip = ($ch * $demand) / ($inventoryCost * $demand);
+                $ip = ($ch * $Q) / ($inventoryCost * $demand);
 
-                $icdf = $normal->inverse($ip);
+                $standardNormal = new Continuous\StandardNormal();
+                $icdf = $standardNormal->inverse($ip);
+                //$icdf = $normal->inverse($ip);
 
-                $R = ($icdf * $sample_sd) - $sample_mean;
+                $R = ($icdf * $sample_sd) + $sample_mean;
 
-                return [$Q, $R];
+                return intval(abs($R - $sample_mean));
                 break;
             case 'uniform':
                 //TODO

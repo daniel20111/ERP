@@ -7,9 +7,11 @@ use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Resources\Product\ProductCollection;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\BInventory;
+use App\Models\Employee;
 use App\Models\Entry;
 use App\Models\Price;
 use App\Models\Product;
+use App\Models\ProductTransfer;
 use App\Models\Sale;
 
 use Illuminate\Http\Request;
@@ -26,6 +28,11 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         //return $branchId = Auth::user()->employee->branch_id;
+        // $monthTransfers = ProductTransfer::whereHas('transfer', function ($q) {
+        //     $q->whereMonth('date', '=', 8);
+        // })->where('product_id', '=', 1)->sum('quantity');
+        // return $monthTransfers;
+
         if ($request->has(['search'])) 
         {
             if ($request->filled('search'))

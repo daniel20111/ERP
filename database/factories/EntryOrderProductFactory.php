@@ -16,7 +16,7 @@ class EntryOrderProductFactory extends Factory
         return [
             'entry_order_id' => $this->faker->numberBetween(1, 5),
             'product_id' => $this->faker->numberBetween(1, 10),
-            'quantity' => $this->faker->numberBetween(10, 100),
+            'quantity' => $this->faker->numberBetween(600, 1000),
         ];
     }
 }

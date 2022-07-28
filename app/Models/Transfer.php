@@ -14,6 +14,8 @@ class Transfer extends Model
         'branch_id',
         'user_id',
         'verified',
+        'priority',
+        'date'
     ];
 
     protected $attributes = [

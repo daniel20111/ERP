@@ -14,7 +14,9 @@ class ProductTransferFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'product_id' => $this->faker->numberBetween(1, 10),
+            'quantity' => $this->faker->numberBetween(100, 500),
+            'allocated' => false,
         ];
     }
 }

@@ -46,6 +46,7 @@ class ProductResource extends JsonResource
             'price' => $this->when($this->price != null, $this->price),
             'sold_units' => $this->when($this->sold_units != null, $this->sold_units),
             'branch_remain_units' => $this->when($this->branch_remain_units != null, $this->branch_remain_units),
+            'estimate_time' => $this->when($this->estimate_time != null, $this->estimate_time),
 
             // 'model_product' => $this->when($this->model_product != null, $this->model_product),
             // 'description_product' => $this->description_product,

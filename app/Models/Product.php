@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
-use GuzzleHttp\Handler\Proxy;
+use App\Http\Controllers\Api\TransferOrderController;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use MathPHP\Statistics\Average;
+use MathPHP\Statistics\Descriptive;
+use MathPHP\Probability\Distribution\Continuous;
 
 class Product extends Model
 {
@@ -35,11 +39,12 @@ class Product extends Model
         'remain_units',
         'reorder_point',
         'price',
+        'estimate_time'
     ];
 
     //protected $attributes = ['remain_units'];
 
-    protected $appends = ['remain_units', 'reorder_point', 'price', 'sold_units', 'branch_remain_units'];
+    protected $appends = ['remain_units', 'reorder_point', 'price', 'sold_units', 'branch_remain_units', 'estimate_time',];
 
     public function getSoldUnitsAttribute()
     {
@@ -95,12 +100,49 @@ class Product extends Model
 
     public function getReorderPointAttribute()
     {
-        return 30;
+        $currentMonth = Carbon::now()->month;
+        $data = [];
+        for ($i = 1; $i <= $currentMonth; $i++) {
+            $monthTransfers = ProductTransfer::whereHas('transfer', function ($q) use ($i) {
+                $q->whereMonth('date', '=', $i);
+            })->where('product_id', '=', $this->id)->sum('quantity');
+            $data[$i - 1] = $monthTransfers;
+        }
+        $mean = Average::mean($data);
+        $reorderPoint = TransferOrderController::eoq(10, 50, $mean, 4, 20, $data, 'normal');
+        return $reorderPoint;
     }
 
     public function setReorderAttribute($value)
     {
         return $this->reorder_point = $value;
+    }
+
+    public function getEstimateTimeAttribute()
+    {
+        $currentInventory = Entry::where('product_id', '=', $this->id)->sum('remain_entry');
+        $currentMonth = Carbon::now()->month;
+        $data = [];
+        for ($i = 1; $i <= $currentMonth; $i++) {
+            $monthTransfers = ProductTransfer::whereHas('transfer', function ($q) use ($i) {
+                $q->whereMonth('date', '=', $i);
+            })->where('product_id', '=', $this->id)->sum('quantity');
+            $data[$i - 1] = $monthTransfers;
+        }
+
+        $isNormal = TransferOrderController::kolmogorov($data, 'normal');
+        if ($isNormal)
+        {
+            $sd = Descriptive::sd($data);
+            $mean = Average::mean($data);
+
+            $normal = new Continuous\Normal($mean, $sd);
+            $nextMonthDemand = $normal->rand();
+
+            //$remainWeeks = $currentInventory / (floatval($nextMonthDemand) / 4);
+            $remainWeeks = 10000 / (floatval($nextMonthDemand) / 4);
+            return intval($remainWeeks);
+        }
     }
 
     protected $casts = [
@@ -111,7 +153,6 @@ class Product extends Model
         'remain_units' => 'int',
         'reorder_point' => 'int',
         'price' => 'float',
-        
     ];
 
     public function entries()
