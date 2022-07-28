@@ -23,14 +23,14 @@ class DatabaseSeeder extends Seeder
 
         //Role::factory()->count(5)->has(Access::factory()->count(3))->create();
         $this->call([
-            // BranchSeeder::class,
-            // ModuleSeeder::class,
-            // RoleSeeder::class,
-            // UserSeeder::class,
+            BranchSeeder::class,
+            ModuleSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
 
-            // ProductSeeder::class,
-            // EntryOrderSeeder::class,
-            // EntryOrderProductSeeder::class,
+            ProductSeeder::class,
+            EntryOrderSeeder::class,
+            EntryOrderProductSeeder::class,
             //QuotationSeeder::class,
             //SaleSeeder::class,
             TransferSeeder::class,
