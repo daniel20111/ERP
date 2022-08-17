@@ -306,6 +306,12 @@ class TransferOrderController extends Controller
 
     public function calculated_statistic(Vector $empiric_positive, Vector $empiric_negative, Vector $calculated)
     {
+
+        if ($calculated == new Vector([0]))
+        {
+            return false;
+        }
+
         $difference_positive = $empiric_positive->subtract($calculated);
 
         $max_positive = $difference_positive->max();
@@ -357,9 +363,18 @@ class TransferOrderController extends Controller
 
     public function normal_distribution(array $data)
     {
+        if (!$data)
+        {
+            return new Vector([0]);
+        }
         sort($data);
         $sd = Descriptive::sd($data);
         $mean = Average::mean($data);
+
+        if ($sd == 0 || $mean == 0)
+        {
+            return new Vector([0]);
+        }
 
         $normal = new Continuous\Normal($mean, $sd);
 
@@ -419,6 +434,11 @@ class TransferOrderController extends Controller
 
     public static function eoq($ch, $c0, $demand, $time, $inventoryCost, array $data, $distribution)
     {
+        if ($demand <= 0 || !$data)
+        {
+            return 0;
+        }
+
         $Q = sqrt(($time * $c0 * $demand) / $ch);
 
         switch($distribution)
@@ -426,6 +446,7 @@ class TransferOrderController extends Controller
             case 'normal':
                 sort($data);
                 $sd = Descriptive::sd($data);
+
                 $mean = Average::mean($data);
                 $normal = new Continuous\Normal($mean, $sd);
 
