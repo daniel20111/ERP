@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class StoreProductRequest extends FormRequest
 {
@@ -24,17 +25,21 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'products' => ['present', 'array', 'min:1'],
-            'products.*' => ['array:name_product,image_product,length_product,height_product,weight_product,units_box_product,brand_product,origin_product'],
+            // 'products' => ['present', 'array', 'min:1'],
+            // 'products.*' => ['array:name_product,image_product,length_product,height_product,weight_product,units_box_product,brand_product,origin_product'],
 
-            'products.*.name_product' => ['required', 'distinct'],
-            'products.*.image_product' => ['required',],
-            'products.*.length_product' => ['required',],
-            'products.*.height_product' => ['required',],
-            'products.*.weight_product' => ['required',],
-            'products.*.units_box_product' => ['required',],
-            'products.*.brand_product' => ['required',],
-            'products.*.origin_product' => ['required',],
+            // 'products.*.name_product' => ['required', 'distinct'],
+            // 'products.*.image_product' => ['required',],
+            // 'products.*.length_product' => ['required',],
+            // 'products.*.height_product' => ['required',],
+            // 'products.*.weight_product' => ['required',],
+            // 'products.*.units_box_product' => ['required',],
+            // 'products.*.brand_product' => ['required',],
+            // 'products.*.origin_product' => ['required',],
+            'product' => ['present'],
+            'image_product' => ['present', 'required', 'image'],
+            'product.*.model_product' => ['required'],
+            'product.*.format_product' => ['required'],
         ];
     }
 }

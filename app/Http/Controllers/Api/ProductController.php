@@ -17,6 +17,7 @@ use App\Models\Sale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -71,18 +72,58 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $validatedRequest = $request->validated();
-
+        $validatedProduct = $request->validated();
         DB::beginTransaction();
-
         try {
-            foreach ($validatedRequest['products'] as $product) {
-                Product::create($product);
-            }
-            Db::commit();
+            $product = new Product;
+            $productDecoded = json_decode($validatedProduct['product']);
+
+            $product->model_product = $productDecoded->model_product;
+            $product->format_product = $productDecoded->format_product;
+
+            $image = $validatedProduct['image_product'];
+            $path = $image->store('public');
+            $url = Storage::url($path);
+
+            $product->url_image_product = $url;
+            
+            //$product->url_image_product = $path;
+            //$product->model_product = $validatedProduct['product']['model_product'];
+            //$product->format_product = $validatedProduct['product']['format_product'];
+            //$product->price = $validatedProduct['product']['price_product'];
+        //DB::commit();
+            return response()->json(['message' => 'Product Agregado'], 200);
         } catch (\Throwable $th) {
-            DB::rollBack();
+        DB::rollback();
+            return response()->json(['error' => $th], 500);
         }
+        // if ($request->hasFile('image_product'))
+        // {
+        //     $file = $request->file('image_product');
+        //     if($file)
+        //     {
+        //         $path = $file->store('public');
+        //         $url = Storage::url($path);
+
+        //         return $url;
+                
+        //     }
+        //     return 'null';
+        // }
+
+
+        // $validatedRequest = $request->validated();
+
+        // DB::beginTransaction();
+
+        // try {
+        //     foreach ($validatedRequest['products'] as $product) {
+        //         Product::create($product);
+        //     }
+        //     Db::commit();
+        // } catch (\Throwable $th) {
+        //     DB::rollBack();
+        // }
 
     }
 
